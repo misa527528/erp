@@ -2,9 +2,11 @@ package com.cqupt.mis.erp.manager.finance.balancesheet;
 
 import com.cqupt.mis.erp.model.finance.BalanceSheet;
 import com.cqupt.mis.erp.model.vo.BalancesheetVO;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("balancesheetDao")
 public interface BalancesheetDao {
 
     /**

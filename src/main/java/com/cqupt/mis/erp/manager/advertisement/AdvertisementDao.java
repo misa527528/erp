@@ -3,9 +3,11 @@ package com.cqupt.mis.erp.manager.advertisement;
 import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.advertisement.Advertisement;
 import com.cqupt.mis.erp.model.order.OrderSequence;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("advertisementDao")
 public interface AdvertisementDao extends BaseDao {
 
     /**

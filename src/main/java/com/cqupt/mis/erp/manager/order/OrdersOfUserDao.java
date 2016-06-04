@@ -3,9 +3,11 @@ package com.cqupt.mis.erp.manager.order;
 import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.order.OrderSequence;
 import com.cqupt.mis.erp.model.order.OrdersOfUser;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("ordersOfUserDao")
 public interface OrdersOfUserDao extends BaseDao {
     /**
      * @param userUnique

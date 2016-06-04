@@ -2,10 +2,12 @@ package com.cqupt.mis.erp.manager.order;
 
 import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.order.AllOrdersOfGroup;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository("allOrdersOfGroupDao")
 public interface AllOrdersOfGroupDao extends BaseDao {
     /**
      * @param allOrdersOfGroups

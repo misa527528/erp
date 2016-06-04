@@ -1,9 +1,11 @@
 package com.cqupt.mis.erp.manager.bank;
 
 import com.cqupt.mis.erp.model.bank.LoanOfUser;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("loanOfUserDao")
 public interface LoanOfUserDao {
 
     /**

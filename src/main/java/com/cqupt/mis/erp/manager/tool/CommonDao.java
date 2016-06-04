@@ -1,7 +1,9 @@
 package com.cqupt.mis.erp.manager.tool;
 
 import com.cqupt.mis.erp.model.registerlogin.GameGroupInfo;
+import org.springframework.stereotype.Repository;
 
+@Repository("commonDao")
 public interface CommonDao extends BaseDao {
 
     /**

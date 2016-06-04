@@ -3,9 +3,11 @@ package com.cqupt.mis.erp.manager.product;
 import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.product.ProductDetailBasic;
 import com.cqupt.mis.erp.model.product.ProductOfUser;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("productBasicDao")
 public interface ProductBasicDao extends BaseDao {
     /**
      * 显示所有产品库存信息

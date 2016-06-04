@@ -1,5 +1,8 @@
 package com.cqupt.mis.erp.manager.bank;
 
+import org.springframework.stereotype.Repository;
+
+@Repository("loanBasicDao")
 public interface LoanBasicDao {
 
     /**

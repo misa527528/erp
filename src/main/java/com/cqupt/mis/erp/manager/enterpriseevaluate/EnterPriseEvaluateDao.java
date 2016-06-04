@@ -1,9 +1,11 @@
 package com.cqupt.mis.erp.manager.enterpriseevaluate;
 
 import com.cqupt.mis.erp.model.enterpriseevaluate.*;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("enterPriseEvaluateDao")
 public interface EnterPriseEvaluateDao {
 
     /**

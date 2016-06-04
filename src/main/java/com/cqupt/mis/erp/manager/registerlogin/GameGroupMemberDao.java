@@ -1,12 +1,14 @@
 package com.cqupt.mis.erp.manager.registerlogin;
 
 import com.cqupt.mis.erp.model.registerlogin.GameGroupMemberInfo;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * Created by yangqing on 2016/6/4.
  */
+@Repository("gameGroupMemberDao")
 public interface GameGroupMemberDao {
     /**
      * findGameGroupMemberList 根据组名来找到所有组员的信息. 无序版

@@ -3,9 +3,11 @@ package com.cqupt.mis.erp.manager.enterpriseevaluate;
 import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.enterpriseevaluate.*;
 import com.cqupt.mis.erp.model.registerlogin.GameGroupInfo;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("historyEnterPriseDao")
 public interface HistoryEnterPriseDao extends BaseDao {
     /**
      * 计算所有者权益合计

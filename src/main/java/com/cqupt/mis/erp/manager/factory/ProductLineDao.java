@@ -3,10 +3,12 @@ package com.cqupt.mis.erp.manager.factory;
 import com.cqupt.mis.erp.model.factory.ProductLineBasic;
 import com.cqupt.mis.erp.model.factory.ProductLineCommonInfo;
 import com.cqupt.mis.erp.model.factory.ProductLineInfo;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 
+@Repository("productLineDao")
 public interface ProductLineDao {
     /**
      * 获取进入厂房内部所拥有的生产线信息。

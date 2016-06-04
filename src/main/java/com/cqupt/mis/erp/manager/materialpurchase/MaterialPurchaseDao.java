@@ -2,9 +2,11 @@ package com.cqupt.mis.erp.manager.materialpurchase;
 
 import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.materialpurchase.MaterialPurchaseRecord;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("materialPurchaseDao")
 public interface MaterialPurchaseDao extends BaseDao {
     /**
      * 收集额外数据 endtime 为购买原材料收集数据

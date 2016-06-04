@@ -2,11 +2,12 @@ package com.cqupt.mis.erp.manager.product;
 
 import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.product.DevelopingProduct;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 
-
+@Repository("developingProductDao")
 public interface DevelopingProductDao extends BaseDao {
 
     /**

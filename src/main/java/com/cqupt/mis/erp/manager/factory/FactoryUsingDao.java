@@ -1,10 +1,12 @@
 package com.cqupt.mis.erp.manager.factory;
 
 import com.cqupt.mis.erp.model.factory.FactoryCommonInfo;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 
+@Repository("factoryUsingDao")
 public interface FactoryUsingDao {
 
     /**

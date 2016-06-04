@@ -1,9 +1,11 @@
 package com.cqupt.mis.erp.manager.finance.profitsheet;
 
 import com.cqupt.mis.erp.model.finance.ProfitSheet;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("profitSheetDao")
 public interface ProfitSheetDao {
     /**
      * 查询利润表

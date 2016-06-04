@@ -2,9 +2,11 @@ package com.cqupt.mis.erp.manager.order;
 
 import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.order.OrderPredictionBasic;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("orderPredictionBasicDao")
 public interface OrderPredictionBasicDao extends BaseDao {
     /**
      * @return

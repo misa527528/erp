@@ -2,9 +2,11 @@ package com.cqupt.mis.erp.manager.iso;
 
 import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.iso.ISOBasic;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("iSOBasicDao")
 public interface ISOBasicDao extends BaseDao {
 
     /**

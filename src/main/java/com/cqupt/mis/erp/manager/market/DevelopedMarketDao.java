@@ -2,9 +2,11 @@ package com.cqupt.mis.erp.manager.market;
 
 import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.market.DevelopedMarket;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("developedMarketDao")
 public interface DevelopedMarketDao extends BaseDao {
     /**
      * findDevelopedMarketsByUserUnique

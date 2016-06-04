@@ -1,7 +1,9 @@
 package com.cqupt.mis.erp.manager.finance.fund;
 
 import com.cqupt.mis.erp.manager.tool.BaseDao;
+import org.springframework.stereotype.Repository;
 
+@Repository("cashDao")
 public interface CashDao extends BaseDao {
 
     /**

@@ -1,12 +1,14 @@
 package com.cqupt.mis.erp.manager.registerlogin;
 
 import com.cqupt.mis.erp.model.registerlogin.RegisterInfo;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * Created by yangqing on 2016/6/4.
  */
+@Repository("registerDao")
 public interface RegisterDao {
     public void updateRegister(RegisterInfo registerInfo);
 

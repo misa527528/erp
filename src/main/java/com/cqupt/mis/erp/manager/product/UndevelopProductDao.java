@@ -2,9 +2,11 @@ package com.cqupt.mis.erp.manager.product;
 
 import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.product.UndevelopProduct;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("undevelopProductDao")
 public interface UndevelopProductDao extends BaseDao {
 
     /**

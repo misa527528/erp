@@ -1,5 +1,7 @@
 package com.cqupt.mis.erp.manager.tool;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 /**
@@ -10,6 +12,7 @@ import java.util.List;
  *         2014-8-8 下午4:11:22
  * @version 1.0.0
  */
+@Repository("baseDao")
 public interface BaseDao {
     /**
      * add 添加对象 (在配置文件中的方法id必须是叫 add 否则无法添加成功)

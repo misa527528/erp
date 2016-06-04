@@ -2,9 +2,11 @@ package com.cqupt.mis.erp.manager.product;
 
 import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.product.DevelopedProduct;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("developedProductDao")
 public interface DevelopedProductDao extends BaseDao {
     /**
      * isProductDeveloped 查询是否已经研发了产品

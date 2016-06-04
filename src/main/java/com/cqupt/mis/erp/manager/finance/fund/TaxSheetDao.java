@@ -2,7 +2,9 @@ package com.cqupt.mis.erp.manager.finance.fund;
 
 import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.finance.TaxSheet;
+import org.springframework.stereotype.Repository;
 
+@Repository("taxSheetDao")
 public interface TaxSheetDao extends BaseDao {
 
     /**

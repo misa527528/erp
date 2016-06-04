@@ -4,6 +4,7 @@ import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.iso.ISODeveloped;
 import com.cqupt.mis.erp.model.iso.ISODeveloping;
 import com.cqupt.mis.erp.model.iso.ISOUndevelop;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
  *
  * @version 1.0.0
  */
+@Repository("iSOManageDao")
 public interface ISOManageDao extends BaseDao {
     /**
      * 查看所有未开拓的iso

@@ -3,9 +3,11 @@ package com.cqupt.mis.erp.manager.admin;
 import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.registerlogin.ApprovedUserInfo;
 import com.cqupt.mis.erp.model.registerlogin.RegisterInfo;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("approvedUserDao")
 public interface ApprovedUserDao extends BaseDao {
     //取出所有已经通过审批的用户列表
     public List<ApprovedUserInfo> findAllApprovedUserList();

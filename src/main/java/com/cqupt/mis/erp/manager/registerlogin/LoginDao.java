@@ -4,10 +4,12 @@ import com.cqupt.mis.erp.model.registerlogin.ApprovedUserInfo;
 import com.cqupt.mis.erp.model.registerlogin.GameGroupInfo;
 import com.cqupt.mis.erp.model.registerlogin.GameGroupMemberInfo;
 import com.cqupt.mis.erp.model.registerlogin.RegisterInfo;
+import org.springframework.stereotype.Repository;
 
 /**
  * Created by yangqing on 2016/6/4.
  */
+@Repository("loginDao")
 public interface LoginDao {
     public RegisterInfo findRegisterByUserId(String userId);
 

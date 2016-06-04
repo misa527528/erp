@@ -1,7 +1,9 @@
 package com.cqupt.mis.erp.manager.inigame;
 
 import com.cqupt.mis.erp.manager.tool.BaseDao;
+import org.springframework.stereotype.Repository;
 
+@Repository("iniGameDao")
 public interface IniGameDao extends BaseDao {
 
     /**

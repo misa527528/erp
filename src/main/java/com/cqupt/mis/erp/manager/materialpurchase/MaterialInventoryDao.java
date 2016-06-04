@@ -2,9 +2,11 @@ package com.cqupt.mis.erp.manager.materialpurchase;
 
 import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.materialpurchase.MaterialInventory;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("materialInventoryDao")
 public interface MaterialInventoryDao extends BaseDao {
     /**
      * 原材料库存查询

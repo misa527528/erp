@@ -1,9 +1,11 @@
 package com.cqupt.mis.erp.manager.factory;
 
 import com.cqupt.mis.erp.model.factory.FactoryCommonInfo;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("factoryMakingDao")
 public interface FactoryMakingDao {
     /**
      * 获取“显示管理在建厂房”要显示的数据信息

@@ -3,6 +3,7 @@ package com.cqupt.mis.erp.manager.registerlogin;
 import com.cqupt.mis.erp.model.registerlogin.GameGroupInfo;
 import com.cqupt.mis.erp.model.registerlogin.GameGroupMemberStatus;
 import com.cqupt.mis.erp.model.vo.GameGroupVO;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Map;
 /**
  * Created by yangqing on 2016/6/4.
  */
+@Repository("gameGroupDao")
 public interface GameGroupDao {
     /**
      * findAllGameGroupList 查找所有的游戏组信息.

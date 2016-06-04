@@ -3,9 +3,11 @@ package com.cqupt.mis.erp.manager.advertisement;
 import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.advertisement.AdvertisementStatusOfUser;
 import com.cqupt.mis.erp.model.vo.AdvertisementUserStatusVO;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("advertisementStatusOfUserDao")
 public interface AdvertisementStatusOfUserDao extends BaseDao {
 
     /**

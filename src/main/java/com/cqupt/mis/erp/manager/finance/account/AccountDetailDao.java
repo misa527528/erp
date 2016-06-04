@@ -1,9 +1,11 @@
 package com.cqupt.mis.erp.manager.finance.account;
 
 import com.cqupt.mis.erp.model.finance.AccountDetail;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("accountDetailDao")
 public interface AccountDetailDao {
 
     /**

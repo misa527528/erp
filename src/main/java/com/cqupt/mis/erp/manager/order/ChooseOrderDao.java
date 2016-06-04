@@ -3,9 +3,11 @@ package com.cqupt.mis.erp.manager.order;
 import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.order.ChooseOrder;
 import com.cqupt.mis.erp.model.vo.ChooseOrderVO;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("chooseOrderDao")
 public interface ChooseOrderDao extends BaseDao {
 
     /**

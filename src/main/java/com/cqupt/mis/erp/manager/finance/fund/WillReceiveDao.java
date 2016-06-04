@@ -1,9 +1,11 @@
 package com.cqupt.mis.erp.manager.finance.fund;
 
 import com.cqupt.mis.erp.model.finance.WillReceive;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("willReceiveDao")
 public interface WillReceiveDao {
     /**
      * 查询应收账款

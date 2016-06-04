@@ -1,5 +1,8 @@
 package com.cqupt.mis.erp.manager.finance.fund;
 
+import org.springframework.stereotype.Repository;
+
+@Repository("willReceiveToCashBasicDao")
 public interface WillReceiveToCashBasicDao {
 
     /**
