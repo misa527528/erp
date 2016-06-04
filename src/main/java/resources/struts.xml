@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <constant name="struts.configuration.xml.reload" value="false" />
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+    <constant name="struts.action.extension" value="action,,do" />
+    <constant name="struts.devMode" value="false"/>
+    <constant name="struts.serve.static.bowserCache" value="true" />
+    <constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+    <constant name="struts.objectFactory" value="spring" />
+
+    <!-- @Author: lx -->
+    <package name="myInterceptor" namespace="/" extends="struts-default" >
+        <interceptors>
+            <interceptor name="loginInteceptor" class="com.cqupt.mis.erp.utils.web.LoginInterceptor" />
+
+            <interceptor-stack name="loginStack">
+                <interceptor-ref name="loginInteceptor" />
+
+                <interceptor-ref name="defaultStack" />
+
+            </interceptor-stack>
+        </interceptors>
+
+        <default-interceptor-ref name="loginStack" />
+
+        <global-results>
+            <result name="loginPage">../../index.html</result>
+        </global-results>
+
+    </package>
+
+    <package name="login" namespace="/" extends="struts-default">
+        <action name="loginAction" class="com.cqupt.mis.erp.action.registerlogin.LoginAction"/>
+
+        <action name="gameGroupAction" class="com.cqupt.mis.erp.action.registerlogin.GameGroupAction">
+            <result name="add_input" type="redirect">/pages/registerlogin/creategroup.html</result>
+            <result name="admin_member_manager" type="redirect">/pages/registerlogin/admingamegroup.html</result>
+            <result name="error" type="redirect">/pages/registerlogin/creategroup.html</result>
+        </action>
+
+        <action name="registerInfoAction" class="com.cqupt.mis.erp.action.registerlogin.RegisterInfoAction">
+            <result name="add_success" type="redirect">/pages/registerlogin/useroperate.html</result>
+            <result name="success" type="redirect">/pages/success.html</result>
+        </action>
+
+        <action name="gameGroupMemberAction" class="com.cqupt.mis.erp.action.registerlogin.GameGroupMemberAction">
+            <result name="view_member" type="redirect">/pages/registerlogin/membergamegroup.html</result>
+            <result name="exit_group_success" type="redirect">/pages/registerlogin/joingroup.html</result>
+        </action>
+    </package>
+
+    <package name="market" namespace="/" extends="myInterceptor">
+        <action name="marketAction" class="com.cqupt.mis.erp.action.market.MarketAction"/>
+        <action name="advertisementAction" class="com.cqupt.mis.erp.action.advertisement.AdvertisementAction"/>
+        <action name="chooseOrderAction" class="com.cqupt.mis.erp.action.order.ChooseOrderAction"/>
+        <action name="predictionAction" class="com.cqupt.mis.erp.action.market.MarketAction"/>
+    </package>
+
+    <package name="factory" namespace="/" extends="myInterceptor">
+        <action name="factoryAction" class="com.cqupt.mis.erp.action.factory.FactoryAction"/>
+        <action name="productLineAction" class="com.cqupt.mis.erp.action.factory.ProductLineAction" />
+    </package>
+
+
+    <package name="finance" namespace="/" extends="myInterceptor">
+        <action name="accountAction" class="com.cqupt.mis.erp.action.finance.AccountAction"/>
+        <action name="balancesheetAction" class="com.cqupt.mis.erp.action.finance.BalancesheetAction"/>
+        <action name="cashAction" class="com.cqupt.mis.erp.action.finance.CashAction"/>
+        <action name="profitSheetAction" class="com.cqupt.mis.erp.action.finance.ProfitSheetAction"/>
+        <action name="taxSheetAction" class="com.cqupt.mis.erp.action.finance.TaxSheetAction"/>
+        <action name="willReceiveAction" class="com.cqupt.mis.erp.action.finance.WillReceiveAction"/>
+    </package>
+
+    <package name="bank" namespace="/" extends="myInterceptor">
+        <action name="loanAction" class="com.cqupt.mis.erp.action.bank.LoanAction"/>
+        <action name="returnLoanAction" class="com.cqupt.mis.erp.action.bank.ReturnLoanAction"/>
+    </package>
+
+    <package name="OrdersOfUser" namespace="/" extends="myInterceptor">
+        <action name="OrdersOfUserAction" class="com.cqupt.mis.erp.action.order.OrdersOfUserAction" >
+
+        </action>
+        <action name="DeliverOrderAction"  class="com.cqupt.mis.erp.action.order.DeliverOrderAction" />
+    </package>
+
+    <package name="product" namespace="/" extends="myInterceptor">
+        <action name="productInventoryAction"  class="com.cqupt.mis.erp.action.product.ProductInventoryAction" />
+    </package>
+
+    <package name="forward" namespace="/" extends="myInterceptor">
+        <action name="forward"  class="com.cqupt.mis.erp.action.forward.ForwardAction"/>
+    </package>
+
+    <package name="material" namespace="/" extends="myInterceptor">
+        <action name="materialInventoryAction"  class="com.cqupt.mis.erp.action.materialpurchase.MaterialInventoryAction" />
+        <action name="materialOrderAction"  class="com.cqupt.mis.erp.action.materialpurchase.MaterialOrderAction" />
+    </package>
+
+    <package name="iso" namespace="/" extends="myInterceptor">
+        <action name="isoManageAction"  class="com.cqupt.mis.erp.action.iso.ISOManageAction" />
+    </package>
+
+    <package name="tax"  namespace="/" extends="myInterceptor">
+        <action name="taxAction" class="com.cqupt.mis.erp.action.tax.TaxAction"/>
+    </package>
+
+    <package name="chat" namespace="/" extends="struts-default">
+        <action name="chatAction" class="com.cqupt.mis.erp.action.chat.ChatAction"/>
+    </package>
+
+    <!-- @Author 毛家杰 -->
+    <package name="validator" namespace="/" extends="struts-default">
+        <action name="securityCodeImageAction" class="com.cqupt.mis.erp.action.registerlogin.SecurityCodeImageAction">
+            <result name="success" type="stream">
+                <param name="contentType">image/jpeg</param>
+                <param name="inputName">imageStream</param>
+                <param name="bufferSize">2048</param>
+            </result>
+        </action>
+
+    </package>
+
+    <package name="admin" namespace="/" extends="struts-default">
+        <action name="userManagerAction" class="com.cqupt.mis.erp.action.admin.UserManagerAction"/>
+        <action name="gameGroupManagerAction" class="com.cqupt.mis.erp.action.admin.GameGroupManagerAction"/>
+        <action name="enterpriseEvaluateAction" class="com.cqupt.mis.erp.action.admin.EnterpriseEvaluateAction"/>
+        <action name="historyAction" class="com.cqupt.mis.erp.action.admin.HistoryEnterpriseAction"/>
+        <action name="adminOperateAction" class="com.cqupt.mis.erp.action.admin.AdminOperateAction"/>
+    </package>
+</struts>
