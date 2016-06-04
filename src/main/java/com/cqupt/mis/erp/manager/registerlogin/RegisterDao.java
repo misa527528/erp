@@ -14,6 +14,7 @@ public interface RegisterDao {
 
     /**
      * 取出用户信息byUserId
+     *
      * @param registerId
      * @return
      */

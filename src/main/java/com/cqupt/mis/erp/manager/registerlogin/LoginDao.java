@@ -7,7 +7,6 @@ import com.cqupt.mis.erp.model.registerlogin.RegisterInfo;
 
 /**
  * Created by yangqing on 2016/6/4.
- *
  */
 public interface LoginDao {
     public RegisterInfo findRegisterByUserId(String userId);
@@ -23,9 +22,10 @@ public interface LoginDao {
      * 0: 表示破产
      * 1: 游戏正在进行
      * 2: 用户已经完成游戏周期
-    *@param userUnique
-    *@return
-    */
+     *
+     * @param userUnique
+     * @return
+     */
     public int getStatusByUserUnique(String userUnique);
 
     public int findGameCreatorByUserId(String userId);
