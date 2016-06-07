@@ -1,4 +1,4 @@
 /.idea/*
 /target/*
 /erp.iml
-/*.iml
+/erp-backend.iml
