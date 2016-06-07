@@ -75,8 +75,8 @@
     <!-- 创建SqlSessionFactory，同时指定数据源 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="configLocation" value="classpath:sqlMapConfig.xml" />
-        <property name="mapperLocations" value="classpath*:com/cqupt/mis/erp/manager/*/impl/*.xml"/>
+        <property name="configLocation" value="classpath:resources/sqlMapConfig.xml" />
+        <property name="mapperLocations" value="classpath*:com/cqupt/mis/erp/manager/*/*.xml"/>
         <property name="configurationProperties">
             <props>
                 <prop key="cacheEnabled">true</prop>
@@ -108,10 +108,11 @@
         </tx:attributes>
     </tx:advice>
 
-    <aop:config>
-        <aop:pointcut id="allMethod" expression="execution(* com.cqupt.mis.erp.service.*.*.*(..))"/>
-        <aop:pointcut id="financeMethod" expression="execution(* com.cqupt.mis.erp.service.finance.*.*.*(..))"/>
-        <aop:advisor pointcut-ref="allMethod" advice-ref="txAdvice"/>
-        <aop:advisor pointcut-ref="financeMethod" advice-ref="txAdvice"/>
-    </aop:config>
+    <!--暂时封印-->
+    <!--<aop:config>-->
+        <!--<aop:pointcut id="allMethod" expression="execution(* com.cqupt.mis.erp.service.*.*.*(..))"/>-->
+        <!--<aop:pointcut id="financeMethod" expression="execution(* com.cqupt.mis.erp.service.finance.*.*.*(..))"/>-->
+        <!--<aop:advisor pointcut-ref="allMethod" advice-ref="txAdvice"/>-->
+        <!--<aop:advisor pointcut-ref="financeMethod" advice-ref="txAdvice"/>-->
+    <!--</aop:config>-->
 </beans>
