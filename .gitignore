@@ -1,4 +1,5 @@
 /.idea/*
 /target/*
+/classes/*
 /erp.iml
 /erp-backend.iml

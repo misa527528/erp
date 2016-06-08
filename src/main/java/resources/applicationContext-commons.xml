@@ -55,7 +55,7 @@
     <!-- 数据库连接池部分的配置 -->
     <bean id="dataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource">
         <property name="driver">
-            <value>com.mysql.jdbc.Driver </value>
+            <value>com.mysql.jdbc.Driver</value>
         </property>
         <property name="driverUrl">
             <value>jdbc:mysql://172.22.1.159:3306/erp?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true</value>
@@ -75,7 +75,7 @@
     <!-- 创建SqlSessionFactory，同时指定数据源 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="configLocation" value="classpath:resources/sqlMapConfig.xml" />
+        <property name="configLocation" value="classpath:sqlMapConfig.xml" />
         <property name="mapperLocations" value="classpath*:com/cqupt/mis/erp/manager/*/*.xml"/>
         <property name="configurationProperties">
             <props>
