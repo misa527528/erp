@@ -9,8 +9,8 @@ author: [haiyuanhe](http://haiyuanhe.github.io)|[misa527528](https://github.com/
 ```
     ├─src
     ├──main
-    ├───java
-    ├────com.cqupt.mis.erp   >(src)
+    ├───java>(src)
+    ├────com.cqupt.mis.erp   
     ├────resources           >(resources)
     ├───webapp
     ├────WEB-INF
