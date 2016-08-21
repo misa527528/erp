@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.advertisement.AdOfUserDao">
+
+    <resultMap type="com.cqupt.mis.erp.model.order.OrderSequence" id="advertisementMoneyMap">
+        <result column="userUnique" property="userUnique"/>
+        <result column="money" property="money"/>
+    </resultMap>
+
+    <!-- 这里可能要修改,没有开发的产品都可以让他能够选择投放这个广告. -->
+    <!-- select adid, productname, money from adofuser where userunique=#{userUnique}
+        and period= (select max(period) from adofuser where userunique=#{userUnique})
+        and marketname=#{marketName} and productname in (select productname from developedproduct
+                        where userunique=#{userUnique}) -->
+    <select id="findAdvertisementByMarketName"
+            resultType="com.cqupt.mis.erp.model.advertisement.Advertisement">
+        select adid as id, productname, money
+        from adofuser
+        where userunique=#{userUnique} and period= (select max(period)
+                                                    from adofuser
+                                                    where userunique=#{userUnique})
+                                                    and marketname=#{marketName}
+    </select>
+
+    <select id="findSummaryMoney" resultType="double">
+        select sum(money) sumMoney
+        from adofUser
+        where userunique=#{userUnique} and period=#{period}
+    </select>
+
+    <select id="findAdvertisementMoneyOfUsers" resultMap="advertisementMoneyMap">
+        select userUnique, money
+        from adofuser
+        where userUnique
+        in (select userUnique
+        from gamegroupmember
+        where groupName=#{groupName})
+        and period=#{period}
+        and marketName=#{marketName}
+        and productName=#{productName}
+    </select>
+
+    <select id="findUserAdvertisementMoney" resultType="double">
+        select money
+        from adofuser
+        where userunique=#{userUnique}
+        and period=#{period}
+        and marketName=#{marketName}
+        and productName=#{productName}
+    </select>
+
+    <update id="updateAdvertisementForProduct">
+        update adofuser
+        set money=#{money}
+        where adid=#{advertisementId}
+    </update>
+
+    <select id="findMarketnameAndProductname"
+            resultType="com.cqupt.mis.erp.model.advertisement.Advertisement">
+        select marketname, productname
+        from marketbasic, productbasic
+    </select>
+
+    <select id="findAlreadAdvertisement" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.advertisement.Advertisement">
+        select adid as id, productname, money,marketname
+        as marketName
+        from adofuser
+        where userunique=#{userUnique} and period=
+                                                  (select max(period)
+                                                   from adofuser
+                                                   where userunique=#{userUnique})
+                                                   and money > 0
+    </select>
+
+    <select id="findMoneyIntoMarket" parameterType="string" resultType="string">
+        select distinct(marketname)
+        from adofuser
+        where userunique=#{userUnique}
+        and money>0
+        and period=(select max(period)
+                    from adofuser
+                    where userunique=#{userUnique})
+    </select>
+
+    <select id="findProductNameByMarket" resultType="string">
+        select distinct(productname)
+        from adofuser
+        where userunique=#{userUnique}
+        and money>0
+        and period=(select max(period)
+                    from adofuser
+                    where userunique=#{userUnique})
+                    and marketname=#{marketName}
+    </select>
+
+    <insert id="addAdvertisementList"  parameterType="list" >
+        insert into ADOFUSER(Period,MarketName,ProductName,UserUnique,Money)
+        <foreach collection="list" item="itm" index="index" separator="union all" >
+            (SELECT
+            #{itm.period},
+            #{itm.marketName},
+            #{itm.productName},
+            #{itm.userUnique},
+            #{itm.money}
+            FROM DUAL)
+        </foreach>
+    </insert>
+
+</mapper>

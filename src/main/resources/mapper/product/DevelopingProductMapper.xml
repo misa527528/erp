@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.product.DevelopingProductDao">
+
+    <select id="findDevelopingProductsByUserUnique" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.product.DevelopingProduct">
+        select USERUNIQUE,PRODUCTNAME,RESEARCHPERIOD,
+               RESEARCHCOST,FINISHEDPERIOD,BEGINTIME,STATUS
+        from DEVELOPINGPRODUCT
+        where userUnique=#{userUnique}
+    </select>
+
+    <insert id="addDevelopingProduct"
+            parameterType="com.cqupt.mis.erp.model.product.DevelopingProduct">
+        insert into developingproduct(userUnique,productName,researchPeriod,
+                    researchCost,finishedPeriod,beginTime,status)
+        values(#{userUnique},#{productName},#{researchPeriod},
+               #{researchCost},#{finishedPeriod},#{beginTime},#{status})
+    </insert>
+
+
+    <update id="updateStopDevelopProductStatus" >
+        update developingproduct
+        set status= #{status}
+        where userUnique=#{userUnique}
+        and productName=#{productName}
+    </update>
+
+    <select id="findDevelopingProductByUserAndPName" parameterType="map"
+            resultType="com.cqupt.mis.erp.model.product.DevelopingProduct" >
+        select USERUNIQUE,PRODUCTNAME,RESEARCHPERIOD,RESEARCHCOST,
+               FINISHEDPERIOD,BEGINTIME,STATUS
+        from DEVELOPINGPRODUCT
+        where userUnique=#{userUnique}
+        and productName=#{productName}
+    </select>
+
+</mapper>

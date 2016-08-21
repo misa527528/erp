@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.registerlogin.ApprovedUserDao">
+    <resultMap type="com.cqupt.mis.erp.model.registerlogin.ApprovedUserInfo" id="ApprovedUserResult" >
+        <id column="USERID" property="userID"/>
+        <result column="USERNAME" property="name"/>
+        <result column="PASSWORD" property="password"/>
+        <result column="MAJOR" property="major"/>
+        <result column="CLASS" property="className"/>
+        <result column="SID" property="studentID"/>
+        <result column="EMAIL" property="email"/>
+        <result column="TEL" property="tel"/>
+        <result column="STATUS" property="status"/>
+    </resultMap>
+
+    <select id="findAllApprovedUserList"  resultMap="ApprovedUserResult">
+        select USERID,USERNAME,PASSWORD,MAJOR,CLASS,SID,EMAIL,TEL from APPROVEDUSER
+    </select>
+
+    <select id="findApprovedUserByUserId" parameterType="string"
+            resultMap="ApprovedUserResult">
+        select USERID,USERNAME,PASSWORD,MAJOR,CLASS,SID,EMAIL,TEL
+        from APPROVEDUSER
+        where USERID=#{userID}
+    </select>
+
+    <select id="findGameGroupCreatorUserByGroupName" resultMap="ApprovedUserResult" parameterType="string">
+        select USERID,USERNAME,PASSWORD,MAJOR,CLASS,SID,EMAIL,TEL
+        from APPROVEDUSER
+        where USERID=(select GROUPCREATERID
+                      from GAMEGROUP
+                      where GROUPNAME=#{groupName})
+    </select>
+
+    <select id="findAllGameGroupUserByGroupName" resultMap="ApprovedUserResult" parameterType="string">
+        select USERID,USERNAME,PASSWORD,MAJOR,CLASS,SID,EMAIL,TEL
+        from APPROVEDUSER
+        where USERID in(select USERID
+                        from GAMEGROUPMEMBER
+                        where GROUPNAME=#{groupName})
+    </select>
+
+    <insert id="addRegister" parameterType="com.cqupt.mis.erp.model.registerlogin.RegisterInfo">
+        insert into APPROVEDUSER(USERID,USERNAME,PASSWORD,MAJOR,CLASS,SID,EMAIL,TEL,TYPEID)
+        values(#{userID},#{name},#{password},#{major},#{className},#{studentID},#{email},#{tel},'1')
+    </insert>
+
+    <delete id="deleteApprovedUserById" >
+        delete
+        from APPROVEDUSER
+        where USERID=#{approvedUserId}
+    </delete>
+
+    <update id="updateApprovedUserInfo">
+        update APPROVEDUSER
+        set USERNAME=#{name},PASSWORD=#{password},MAJOR=#{major},
+            CLASS=#{className},SID=#{studentID},EMAIL=#{email},TEL=#{tel}
+        where USERID=#{userID}
+    </update>
+
+</mapper>

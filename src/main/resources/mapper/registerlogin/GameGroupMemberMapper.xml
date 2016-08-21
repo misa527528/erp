@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.registerlogin.GameGroupMemberDao">
+    <select id="findGroupNameByUserId"
+            resultType="string" parameterType="string">
+        select GROUPNAME
+        from GAMEGROUPMEMBER
+        where USERID = #{userId}
+        AND STATUS>-1
+    </select>
+
+    <select id="finGroupMemberByUserId" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.registerlogin.GameGroupMemberInfo">
+        select GROUPNAME,USERID
+        from GAMEGROUPMEMBER
+        where USERID=#{userId}
+        AND STATUS>-1
+    </select>
+
+    <select id="findUserUniqueByUserId" parameterType="string" resultType="string">
+        select USERUNIQUE
+        from GAMEGROUPMEMBER
+        where userID=#{userId}
+        AND STATUS>-1
+    </select>
+
+    <select id="findCurrentPeriod" parameterType="string" resultType="int">
+        select CURRENTPERIOD
+        from GAMEGROUPMEMBER
+        where USERUNIQUE=#{userUnique}
+    </select>
+
+    <select id="findGameGroupMemberListByStatus"
+            resultType="com.cqupt.mis.erp.model.registerlogin.GameGroupMemberInfo">
+        select USERUNIQUE,GROUPNAME,USERID,CURRENTPERIOD
+        from gamegroupmember
+        where groupname in (select groupname
+                            from gamegroupmember
+                            where userunique=#{userUnique})
+        and status=#{status}
+    </select>
+
+    <select id="findGameGroupMemberListByStatusAndGroupName"
+            resultType="com.cqupt.mis.erp.model.registerlogin.GameGroupMemberInfo">
+        select USERUNIQUE,GROUPNAME,USERID,CURRENTPERIOD
+        from gamegroupmember
+        where groupname=#{groupName}
+        and status=#{status}
+    </select>
+
+    <select id="findStatusByUserUnique" parameterType="string" resultType="int">
+        select STATUS
+        from GAMEGROUPMEMBER
+        where USERUNIQUE=#{userUnique}
+    </select>
+
+    <select id="findLeastCurrentPeriodByGroupName"
+            resultType="int" parameterType="string">
+        select min(currentperiod)
+        from gamegroupmember
+        where groupname=#{groupName}
+        group by groupname
+    </select>
+
+    <select id="findUserNumByGroupName" resultType="int" parameterType="string">
+        select count(*) nums
+        from GameGroupMember
+        where groupName = #{groupName}
+    </select>
+
+    <select id="findGroupNameByUserUnique"
+            resultType="string" parameterType="string">
+        select GROUPNAME
+        from GAMEGROUPMEMBER
+        where USERID = #{userUnique}
+        AND STATUS>-1
+    </select>
+
+    <select id="findUsersByGroupName" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.registerlogin.GameGroupMemberInfo">
+        select USERUNIQUE,USERID
+        from GAMEGROUPMEMBER
+        where GROUPNAME=#{groupName}
+    </select>
+
+    <select id="findUserUniqueInGroupMemberByUserId" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.registerlogin.GameGroupMemberInfo">
+        select userunique,gamegroup.currentperiod
+        from gamegroupmember,gamegroup where userid=#{userId}
+        and gamegroupmember.groupname =  gamegroup.groupname
+        AND STATUS>-1
+    </select>
+
+    <select id="getStatusByUserUnique" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.registerlogin.GameGroupMemberInfo">
+        select STATUS
+        from GAMEGROUPMEMBER
+        where USERUNIQUE=#{userUnique}
+    </select>
+
+
+    <update id="updateGameGroupMember">
+        update GAMEGROUPMEMBER
+        set USERUNIQUE=#{userUnique},CURRENTPERIOD=#{currentPeriod},Status=#{status}
+        where USERID=#{userID}
+        AND groupName = #{groupName}
+    </update>
+
+    <update id="updateBankruptcyUserStatus">
+        update GAMEGROUPMEMBER
+        set STATUS=#{status}
+        where userUnique=#{userUnique}
+    </update>
+
+    <update id="updateIncreaseUserCurrentPeriod" parameterType="string">
+        update GAMEGROUPMEMBER
+        set CurrentPeriod=CurrentPeriod+1
+        where userUnique=#{userUnique}
+    </update>
+
+    <update id="updateUserStatusToFinishGame" parameterType="string">
+        update gamegroupmember
+        set status=2
+        where userunique=#{userUnique}
+    </update>
+
+    <delete id="deleteByUserUnique" >
+        delete
+        from GAMEGROUPMEMBER
+        where GROUPNAME=#{groupName}
+        and USERUNIQUE=#{userUnique}
+    </delete>
+
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.market.UndevelopMarketDao">
+    <select id="findUndevelopMarketsByUserUnique" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.market.UndevelopMarket">
+        select USERUNIQUE,MARKETNAME,RESEARCHPERIOD,RESEARCHCOST,MAINTAINCOST
+        from undevelopmarket
+        where USERUNIQUE=#{userUnique}
+    </select>
+
+    <select id="findUndevelopMarketByUserUniqueAndMarketName" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.market.UndevelopMarket">
+        select USERUNIQUE,MARKETNAME,RESEARCHPERIOD,RESEARCHCOST,MAINTAINCOST
+        from undevelopmarket
+        where USERUNIQUE=#{userUnique}
+        and MARKETNAME=#{marketName}
+    </select>
+</mapper>

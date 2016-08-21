@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.iso.DevelopedIsoDao">
+
+    <select id="findAllISODeveloped" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.iso.ISODeveloped" >
+        select ISOName,MaintainCost,beginTime,endTime,lastStatus,status,userUnique
+        from DEVELOPEDISO
+        where USERUNIQUE=#{userUnique}
+    </select>
+
+    <select id="findOneDevelopedISO"
+            resultType="com.cqupt.mis.erp.model.iso.ISODeveloped">
+        select ISOName,MaintainCost,beginTime,endTime,lastStatus,status,userUnique
+        from developediso
+        where userUnique=#{userUnique} and ISOName=#{ISOName}
+    </select>
+
+    <update id="updateISODevelopedStatus">
+        update developediso
+        set STATUS =#{status}
+        where USERUNIQUE = #{userUnique}
+        and ISONAME =#{isoName}
+    </update>
+
+    <update id="updateISODevelopedLastStatus">
+        update developediso
+        set LASTSTATUS =#{lastStatus}
+        where USERUNIQUE = #{userUnique}
+        and ISONAME =#{isoName}
+    </update>
+
+    <insert id="addISOToISODeveloped">
+        insert
+        into developediso
+        values(#{userUnique},#{isoName},#{maintainCost},#{status},
+               #{lastStatus},#{beginTime},#{endTIime})
+    </insert>
+
+</mapper>

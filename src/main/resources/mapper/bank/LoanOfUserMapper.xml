@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.bank.LoanOfUserDao">
+    <resultMap type="com.cqupt.mis.erp.model.bank.LoanOfUser" id="LoanOfUserMap">
+        <id column="LOANID" property="loanID" />
+        <result column="LOANTYPENAME" property="loanTypeName" />
+        <result column="BEGINTIME" property="beginTime" />
+        <result column="ENDTIME" property="endTime" />
+        <result column="MONEY" property="money" />
+    </resultMap>
+
+    <select id="findALoanOfUserByUserUniqueAndLoanID"
+            resultType="com.cqupt.mis.erp.model.bank.LoanOfUser">
+        select LOANTYPENAME,BEGINTIME,ENDTIME,MONEY
+        from LOANOFUSER
+        where USERUNIQUE =#{userUnique}
+        and LOANID = #{loanID}
+    </select>
+
+    <select id="findLoanOfUserByUserUnique" resultMap="LoanOfUserMap">
+        SELECT LOANID ,LOANTYPENAME ,BEGINTIME ,ENDTIME ,MONEY ,STATUS
+        FROM LOANOFUSER
+        WHERE USERUNIQUE = #{userUnique}
+        ORDER BY LOANID ASC
+    </select>
+
+    <select id="findLoanOfUserByUserUniqueAndStatus" resultMap="LoanOfUserMap">
+        SELECT LOANID ,LOANTYPENAME ,BEGINTIME ,ENDTIME ,MONEY ,STATUS
+        FROM LOANOFUSER
+        WHERE USERUNIQUE = #{userUnique}
+        AND STATUS = #{status}
+        ORDER BY LOANID ASC
+    </select>
+
+    <select id="findLoanOfUserByUserUniqueAndStatusAndLoanTypeName"
+            resultMap="LoanOfUserMap">
+        SELECT LOANID ,LOANTYPENAME ,BEGINTIME ,ENDTIME ,MONEY ,STATUS
+        FROM LOANOFUSER
+        WHERE USERUNIQUE = #{userUnique}
+        AND STATUS = #{status}
+        AND LOANTYPENAME = #{loanTypeName}
+        ORDER BY LOANID ASC
+    </select>
+
+    <select id="findLoanOfUserByUserUniqueAndLoanTypeName"
+            resultMap="LoanOfUserMap">
+        SELECT LOANID ,LOANTYPENAME ,BEGINTIME ,ENDTIME ,MONEY ,STATUS
+        FROM LOANOFUSER
+        WHERE USERUNIQUE = #{userUnique}
+        AND LOANTYPENAME = #{loanTypeName}
+        ORDER BY LOANID ASC
+    </select>
+
+    <select id="findWithEndTime" resultMap="LoanOfUserMap">
+        select LOANID,LOANTYPENAME,BEGINTIME,ENDTIME,MONEY
+        from LOANOFUSER
+        where USERUNIQUE = #{userUnique}
+        and ENDTIME &lt;= #{endTime}
+        and STATUS = 0
+        and LOANTYPENAME = '长期贷款'
+    </select>
+
+
+    <insert id="insertLoanOfUser">
+        insert into LOANOFUSER(
+            userUnique, loanTypeName, beginTime,
+            endTime, status, money
+        )
+        values(#{userUnique},#{loanTypeName},#{beginTime},
+               #{endTime},#{status},#{money})
+    </insert>
+
+    <update id="updateLoanOfUser">
+        update LOANOFUSER
+        set status = #{status}
+        where USERUNIQUE = #{userUnique}
+        and LOANID = #{loanID}
+    </update>
+</mapper>
+

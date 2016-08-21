@@ -1,23 +1,24 @@
 package com.cqupt.mis.erp.manager.market;
 
-import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.market.UndevelopMarket;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Created by 杨青 on 2016/8/14.
+ */
 @Repository("undevelopMarketDao")
-public interface UndevelopMarketDao extends BaseDao {
-    public List<UndevelopMarket> findUndevelopMarketsByUserUnique(String userUnique);
+public interface UndevelopMarketDao {
+    List<UndevelopMarket> findUndevelopMarketsByUserUnique(String userUnique);
 
     /**
-     * findUndevelopMarketByUserUniqueAndMarketName 根据userUnique和市场名称条件,查找还没开拓市场
-     *
+     * 根据userUnique和市场名称条件,查找还没开拓市场
      * @param userUnique
      * @param marketName
-     * @return UndevelopMarket
-     * @throws
-     * @since 1.0.0
+     * @return
      */
-    public UndevelopMarket findUndevelopMarketByUserUniqueAndMarketName(String userUnique, String marketName);
+    UndevelopMarket findUndevelopMarketByUserUniqueAndMarketName(@Param("userUnique") String userUnique,
+                                                                 @Param("marketName") String marketName);
 }

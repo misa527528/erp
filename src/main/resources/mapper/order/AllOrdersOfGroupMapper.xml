@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.order.AllOrdersOfGroupDao">
+    <insert  id="addAllOrdersOfGroups" parameterType="list" >
+        insert into allordersofgroup(ProductName,PNumber,Price,
+                    MarketName,NeedTime,MoneyTime,PenalPercent,
+                    SpecialRem,GroupName,Status,Period)
+        <foreach collection="list" item="itm" index="index" separator="union all" >
+            (SELECT
+            #{itm.productName},
+            #{itm.pNumber},
+            #{itm.price},
+            #{itm.marketName},
+            #{itm.needTime},
+            #{itm.MoneyTime},
+            #{itm.penalPercent},
+            null,
+            #{itm.groupName},
+            #{itm.status},
+            #{itm.period}
+
+            FROM DUAL)
+        </foreach>
+    </insert >
+
+    <!-- 在mysql 中少了一个 begin 和end ;  这他妈的还出了乱码问题 而不是那个批量 update 的问题  加上CDATA 就好了 草! -->
+    <update id="updateSpecalRems" parameterType="list">
+        <foreach collection="list" item="item" index="index" separator=";" >
+            <if test="item.specialRem!=null and item.specialRem!=''">
+                <![CDATA[ UPDATE `erp`.`allordersofgroup`
+                          SET `SPECIALREM` = #{item.specialRem},`PRICE` = #{item.price}
+                          WHERE `ORDERID` = #{item.orderID}]]>
+            </if>
+        </foreach>
+    </update>
+
+    <update id="updateOrderStatusByOrderId">
+        update allordersofgroup
+        set status=#{status}
+        where orderid=#{orderId}
+    </update>
+
+    <select id="findAllOrdersOfGroup" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.order.AllOrdersOfGroup">
+        select *
+        from allordersofgroup
+        where ALLORDERSOFGROUP.GROUPNAME = #{groupName}
+    </select>
+
+    <select id="findOrderStatusByOrderId" parameterType="string" resultType="int">
+        select status
+        from allordersofgroup
+        where orderid=#{orderId}
+    </select>
+
+    <select id="findAllOrdersOfGroupByOrderId" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.order.AllOrdersOfGroup">
+        select OrderID,ProductName,PNumber,Price,
+               MarketName,NeedTime,MoneyTime,PenalPercent,
+               SpecialRem,GroupName,Status,Period
+        from AllOrdersOfGroup
+        where orderid=#{orderId}
+    </select>
+
+    <!-- 查看当前期这个人可以拿到的订单.  -->
+    <select id="findOrderOfGroupByUserUnique" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.order.AllOrdersOfGroup">
+        select OrderID,ProductName,PNumber,Price,MarketName,NeedTime,
+               MoneyTime,PenalPercent,SpecialRem,GroupName,Status,Period
+        from AllOrdersOfGroup
+        where exists (select 1
+                      from gamegroupmember
+                      where userunique=#{userUnique}
+                      and AllOrdersOfGroup.groupname=gamegroupmember.groupname
+                       and AllOrdersOfGroup.period=gamegroupmember.currentperiod)
+        order by ProductName,MarketName
+    </select>
+
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cqupt.mis.erp.manager.product.DevelopedProductDao">
+    <select id="findByUserUniqueAndProductName" resultType="int">
+        select USERUNIQUE,PRODUCTNAME,BEGINTIME,ENDTIME
+        from developedproduct
+        where userUnique=#{userUnique}
+        and productname=#{productName}
+    </select>
+
+    <select id="findDevelopProductsByUserUnique" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.product.DevelopedProduct">
+        select USERUNIQUE,PRODUCTNAME,BEGINTIME,ENDTIME
+        from developedproduct
+        where userUnique=#{userUnique}
+    </select>
+
+</mapper>

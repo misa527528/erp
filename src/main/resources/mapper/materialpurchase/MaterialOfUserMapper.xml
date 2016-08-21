@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 数据表 materialofuser -->
+<mapper namespace="com.cqupt.mis.erp.manager.materialpurchase.MaterialOfUserDao">
+    <resultMap type="com.cqupt.mis.erp.model.materialpurchase.MaterialInventory"
+               id="InventoryResult">
+        <id column="USERUNIQUE" property="userUnique" />
+        <result column="MATERIALNAME" property="materialName" />
+        <result column="MNUMBER" property="mNumber" />
+        <result column="WAREHOUSENAME" property="wareHouseName" />
+    </resultMap>
+
+    <select id="findMaterialInventories" parameterType="string"
+            resultMap="InventoryResult">
+        select MATERIALNAME, MNUMBER, WAREHOUSENAME,USERUNIQUE
+        from MATERIALOFUSER
+        where USERUNIQUE=#{userUnique}
+    </select>
+
+    <select id="findInventoryWithMaterialName" resultType="int">
+        select MNUMBER
+        from MATERIALOFUSER
+        where USERUNIQUE =#{userUnique}
+        and MATERIALNAME= #{materialName}
+    </select>
+
+    <select id="findInventoryWithZero" parameterType="string" resultType="int">
+        select count(*)
+        from MATERIALOFUSER
+        where MNUMBER = 0
+        and USERUNIQUE = #{userUnique}
+    </select>
+
+    <update id="updateMaterialInventory">
+        update MATERIALOFUSER
+        set MNUMBER = MNUMBER - #{mNumber}
+        where USERUNIQUE = #{userUnique}
+        and MATERIALNAME = #{materialName}
+    </update>
+
+    <delete id="delelteInventoryWithZero">
+        delete MATERIALOFUSER
+        where USERUNIQUE =#{userUnique}
+        and MNUMBER = #{mNumber}
+    </delete>
+</mapper>

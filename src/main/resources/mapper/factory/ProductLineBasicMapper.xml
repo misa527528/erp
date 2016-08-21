@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 数据表 productlineBasic -->
+<mapper namespace="com.cqupt.mis.erp.manager.factory.ProductLineBasicDao">
+    <resultMap type="com.cqupt.mis.erp.model.factory.ProductLineCommonInfo" id="ProductLineCommonInfoResult">
+        <id column="USERUNIQUE" property="userUnique" />
+        <id column="PRODUCTLINEID" property="productLineId" />
+        <result column="FACTORYID" property="factoryId" />
+        <result column="PRODUCTLINETYPE" property="productLineType" />
+        <result column="STATUS" property="status" />
+        <result column="PRODUCTNAME" property="productName" />
+        <result column="PRODUCTFINISHPERIOD" property="productFinishPeriod" />
+        <result column="FINISHPERIOD" property="finishPeriod" />
+        <result column="SELLPRICE" property="sellPrice" />
+        <result column="FACTORYTYPE" property="factoryType" />
+        <result column="SETUPPERIODPRICE" property="setupPeriodPrice" />
+        <result column="SETUPPERIOD" property="setupPeriod" />
+        <result column="PRODUCEPERIOD" property="producePeriod" />
+        <result column="CHANGEPERIOD" property="changePeriod" />
+        <result column="CHANGECOST" property="changeCost" />
+        <result column="MAINCOST" property="mainCost" />
+        <result column="STUMPCOST" property="stumpCost" />
+        <result column="DEPRECIATION" property="depreciation" />
+        <result column="DELAYTIME" property="delayTime" />
+    </resultMap>
+
+    <resultMap type="com.cqupt.mis.erp.model.factory.ProductLineBasic" id="ProductLineBasic">
+        <result column="PRODUCTLINETYPE" property="productLineType" />
+        <result column="SETUPPERIODPRICE" property="setupPeriodPrice" />
+        <result column="SETUPPERIOD" property="setupPeriod" />
+        <result column="PRODUCEPERIOD" property="producePeriod" />
+        <result column="CHANGEPERIOD" property="changePeriod" />
+        <result column="CHANGECOST" property="changeCost" />
+        <result column="MAINCOST" property="mainCost" />
+        <result column="STUMPCOST" property="stumpCost" />
+        <result column="DEPRECIATION" property="depreciation" />
+        <result column="DELAYTIME" property="delayTime" />
+    </resultMap>
+
+    <select id="findAllProductLineBasics" resultMap="ProductLineBasic">
+        select PRODUCTLINETYPE,SETUPPERIOD,SETUPPERIODPRICE,CHANGEPERIOD,
+               CHANGECOST,PRODUCEPERIOD,MAINCOST,DEPRECIATION,STUMPCOST,DELAYTIME
+        from PRODUCTLINEBASIC
+    </select>
+
+    <select id="findProductLineChangePeriod" parameterType="string" resultType="int">
+        select CHANGEPERIOD from PRODUCTLINEBASIC where PRODUCTLINETYPE=#{productLineType}
+    </select>
+
+    <select id="findDelayTime" parameterType="string" resultType="int">
+        select delayTime
+        from PRODUCTLINEBASIC
+        where productLineType=#{productLineType}
+    </select>
+
+    <select id="find_product_basic_by_productlineid" parameterType="string"
+            resultMap="ProductLineBasic">
+        select PRODUCTLINETYPE,SETUPPERIOD,SETUPPERIODPRICE,CHANGEPERIOD,CHANGECOST,
+               PRODUCEPERIOD,MAINCOST,DEPRECIATION,STUMPCOST,DELAYTIME
+        from PRODUCTLINEBASIC
+        where PRODUCTLINETYPE=(select productlinetype
+                               from productline
+                               where productlineid=#{productLineId})
+    </select>
+
+
+</mapper>

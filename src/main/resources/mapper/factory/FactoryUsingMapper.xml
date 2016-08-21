@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cqupt.mis.erp.manager.factory.FactoryUsingDao">
+    <resultMap type="com.cqupt.mis.erp.model.factory.FactoryCommonInfo" id="FactoryCommonInfoResult">
+        <id column="USERUNIQUE" property="userUnique" />
+        <id column="FACTORYID" property="factoryId" />
+        <result column="FACTORYTYPE" property="factoryType" />
+        <result column="SELLPRICE" property="sellPrice" />
+        <result column="PLACE" property="place" />
+        <result column="BEGINTIME" property="beginTime" />
+        <result column="FINISHTIME" property="finishTime" />
+        <result column="FINISHEDPERIOD" property="finishedPeriod" />
+        <result column="CAPACITY" property="capacity" />
+        <result column="PRODUCTLINENUMBER" property="productLineNumber" />
+        <result column="RENTCOST" property="rentCost" />
+        <result column="NEEDPERIOD" property="needPeriod" />
+        <result column="STATUS" property="status" />
+        <result column="PAYMODE" property="payMode" />
+        <result column="MAKEPERIOD" property="makePeriod" />
+        <result column="SELLDESCRIPTION" property="sellDescription" />
+    </resultMap>
+
+    <!-- 管理已建成厂房 -->
+    <select id="findFactoryUsings" parameterType="string"
+            resultMap="FactoryCommonInfoResult">
+        select FACTORY_USING.USERUNIQUE, FACTORY_USING.FACTORYID,FACTORY_USING.FACTORYTYPE,
+               FACTORY_USING.SELLPRICE, FACTORY_USING.BEGINTIME, FACTORY_USING.FINISHTIME,
+               FACTORY_USING.PLACE,CAPACITY,count(PRODUCTLINE.PRODUCTLINEID) as PRODUCTLINENUMBER
+        from FACTORYBASIC,FACTORY_USING left join PRODUCTLINE ON FACTORY_USING.FACTORYID=PRODUCTLINE.FACTORYID and FACTORY_USING.USERUNIQUE=PRODUCTLINE.USERUNIQUE
+        where
+        FACTORY_USING.USERUNIQUE=#{userUnique}
+        and FACTORY_USING.FACTORYTYPE=FACTORYBASIC.FACTORYTYPE
+        group by FACTORY_USING.USERUNIQUE,FACTORY_USING.FACTORYID,FACTORY_USING.FACTORYTYPE,
+                 FACTORY_USING.SELLPRICE,FACTORY_USING.PLACE,BEGINTIME,FINISHTIME,CAPACITY
+    </select>
+
+    <select id="findFactoryUsingsByMarketName"
+            resultMap="FactoryCommonInfoResult">
+        select FACTORY_USING.USERUNIQUE, FACTORY_USING.FACTORYID,FACTORY_USING.FACTORYTYPE,
+               FACTORY_USING.SELLPRICE, FACTORY_USING.BEGINTIME, FACTORY_USING.FINISHTIME,
+               FACTORY_USING.PLACE,CAPACITY,count(PRODUCTLINE.PRODUCTLINEID) as PRODUCTLINENUMBER
+        from FACTORYBASIC,FACTORY_USING left join PRODUCTLINE ON FACTORY_USING.FACTORYID=PRODUCTLINE.FACTORYID and FACTORY_USING.USERUNIQUE=PRODUCTLINE.USERUNIQUE
+        where FACTORY_USING.USERUNIQUE=#{userUnique}
+        and FACTORY_USING.PLACE like #{marketName}
+        and FACTORY_USING.FACTORYTYPE=FACTORYBASIC.FACTORYTYPE
+        group by FACTORY_USING.USERUNIQUE,FACTORY_USING.FACTORYID,FACTORY_USING.FACTORYTYPE,
+                 FACTORY_USING.SELLPRICE,FACTORY_USING.PLACE,BEGINTIME,FINISHTIME,CAPACITY
+    </select>
+
+    <!-- 查看厂房明细信息 FACTORY_USING表中的“厂房编号（FactoryID）”，“厂房类型（FactoryType）”，
+    “残值(SellPrice)”,“所在位置(Place)”,“开工时间（BeginTime）”，“完工时间(FinishTime)”;
+		FACTORY_BASIC表中的“能容纳的生产线数量(Capacity)”；
+		从PRODUCTLINE表中根据计算得到“已安装的生产线数量（这是计算字段，
+		根据UserUnique和FactoryID在PRODUCTLINE表中进行计数得到.”。 -->
+    <select id="findUsingDetailWithProductLineNumber"
+            resultMap="FactoryCommonInfoResult">
+        select SELLDESCRIPTION,FACTORY_USING.FACTORYID,FACTORY_USING.FACTORYTYPE,
+              FACTORY_USING.SELLPRICE,FACTORY_USING.PLACE,BEGINTIME,FINISHTIME,
+              CAPACITY,count(PRODUCTLINE.PRODUCTLINEID)
+        as PRODUCTLINENUMBER
+        from FACTORYBASIC,FACTORY_USING,PRODUCTLINE
+        where FACTORY_USING.USERUNIQUE=#{userUnique}
+        and FACTORY_USING.FACTORYID=#{factoryId}
+        and FACTORY_USING.FACTORYID=PRODUCTLINE.FACTORYID
+        and FACTORY_USING.FACTORYTYPE=FACTORYBASIC.FACTORYTYPE
+        group by SELLDESCRIPTION,FACTORY_USING.FACTORYID,FACTORY_USING.FACTORYTYPE,
+                 FACTORY_USING.SELLPRICE,FACTORY_USING.PLACE,BEGINTIME,FINISHTIME,CAPACITY
+    </select>
+
+    <select id="findUsingDetail"
+            resultMap="FactoryCommonInfoResult">
+        select SELLDESCRIPTION,FACTORY_USING.FACTORYID,FACTORY_USING.FACTORYTYPE,
+               FACTORY_USING.SELLPRICE,FACTORY_USING.PLACE,BEGINTIME,FINISHTIME,CAPACITY
+        from FACTORYBASIC,FACTORY_USING
+        where FACTORY_USING.USERUNIQUE=#{userUnique}
+        and FACTORY_USING.FACTORYID=#{factoryId}
+        and FACTORY_USING.FACTORYTYPE=FACTORYBASIC.FACTORYTYPE
+        group by SELLDESCRIPTION,FACTORY_USING.FACTORYID,FACTORY_USING.FACTORYTYPE,
+                 FACTORY_USING.SELLPRICE,FACTORY_USING.PLACE,BEGINTIME,FINISHTIME,CAPACITY
+    </select>
+
+    <delete id="deleteFactory" >
+        delete
+        from factory_using
+        where userUnique=#{userUnique}
+        and factoryId=#{factoryId}
+    </delete>
+</mapper>

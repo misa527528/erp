@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.admin.AdminUserDao">
+    <resultMap id="AdminUserResult" type="com.cqupt.mis.erp.model.admin.AdminUser">
+        <id column="ADMINID" property="adminId"/>
+        <result column="ADMINNAME" property="adminName"/>
+        <result column="PASSWORD" property="password"/>
+        <result column="POSITION" property="position"/>
+        <result column="EMAIL" property="email"/>
+        <result column="TEL" property="tel"/>
+        <result column="REM1" property="rem1"/>
+        <result column="ROLE" property="role"/>
+    </resultMap>
+    
+    <select id="findAdminUsersByAdminId" resultMap="AdminUserResult">
+        SELECT *
+        FROM adminuser
+        WHERE adminId = #{adminId}
+    </select>
+    
+    <update id="updatePWD">
+      UPDATE adminuser
+      SET password = #{newPWD}
+      WHERE adminId = #{adminId} AND password = #{oldPWD}
+    </update>
+</mapper>

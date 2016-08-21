@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.market.DevelopedMarketDao">
+    <select id="findDevelopedMarketsByUserUnique" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.market.DevelopedMarket">
+        select UserUnique,MarketName,MaintainCost,
+               Status,LastStatus,BeginTime,EndTime
+        from developedmarket
+        where userunique=#{userUnique}
+    </select>
+
+    <select id="findDevelopedMarket"
+            resultType="com.cqupt.mis.erp.model.market.DevelopedMarket">
+        select UserUnique,MarketName,MaintainCost,
+               Status,LastStatus,BeginTime,EndTime
+        from developedmarket
+        where userunique=#{userUnique}
+        AND marketName = #{marketName}
+    </select>
+
+    <update id="updateStopMaintainDevelopedMarket">
+        update developedmarket
+        set status=#{status}
+        where marketName=#{marketName}
+        and userUnique=#{userUnique}
+    </update>
+</mapper>

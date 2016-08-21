@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cqupt.mis.erp.manager.factory.ProductLineDao">
+    <resultMap type="com.cqupt.mis.erp.model.factory.ProductLineInfo" id="ProductLineInfoResult">
+        <id column="USERUNIQUE" property="userUnique" />
+        <id column="PRODUCTLINEID" property="productLineId" />
+        <result column="FACTORYID" property="factoryId" />
+        <result column="PRODUCTLINETYPE" property="productLineType" />
+        <result column="STATUS" property="status" />
+        <result column="PRODUCTNAME" property="productName" />
+        <result column="PRODUCTFINISHPERIOD" property="productFinishPeriod" />
+        <result column="FINISHPERIOD" property="finishPeriod" />
+        <result column="SELLPRICE" property="sellPrice" />
+        <result column="FACTORYTYPE" property="factoryType" />
+    </resultMap>
+
+    <select id="findProductLines" resultMap="ProductLineInfoResult">
+        select PRODUCTLINE.USERUNIQUE,PRODUCTLINE.PRODUCTLINEID,
+               PRODUCTLINE.PRODUCTLINETYPE,PRODUCTLINE.STATUS,PRODUCTLINE.FACTORYID,
+               PRODUCTLINE.PRODUCTNAME,PRODUCTFINISHPERIOD,FINISHPERIOD,SELLPRICE
+        from PRODUCTLINE,PRODUCTLINEBASIC
+        where USERUNIQUE=#{userUnique}
+        and FACTORYID=#{factoryId}
+        and PRODUCTLINEBASIC.PRODUCTLINETYPE=PRODUCTLINE.PRODUCTLINETYPE
+    </select>
+
+    <!-- 查看生产线详细信息 -->
+    <select id="findProductLineDetail" resultMap="ProductLineInfoResult">
+        select PRODUCTLINEID,FACTORYID,PRODUCTLINE.PRODUCTLINETYPE,SELLPRICE,PRODUCTNAME,
+               STATUS,FINISHPERIOD,PRODUCTFINISHPERIOD,SETUPPERIOD,SETUPPERIODPRICE,
+               CHANGEPERIOD,CHANGECOST,PRODUCEPERIOD,MAINCOST,DEPRECIATION,STUMPCOST,DELAYTIME
+        from PRODUCTLINE,PRODUCTLINEBASIC
+        where USERUNIQUE=#{userUnique}
+        and PRODUCTLINEID=#{productLineId}
+        and PRODUCTLINEBASIC.PRODUCTLINETYPE=PRODUCTLINE.PRODUCTLINETYPE
+    </select>
+
+    <select id="findUniqueProductLineBasic" parameterType="string" resultMap="ProductLineInfoResult">
+        select PRODUCTLINETYPE,SETUPPERIOD,SETUPPERIODPRICE,CHANGEPERIOD,
+               CHANGECOST,PRODUCEPERIOD,MAINCOST,DEPRECIATION,STUMPCOST
+        from PRODUCTLINEBASIC
+        where PRODUCTLINETYPE=#{productLineType}
+    </select>
+
+    <select id="findProductLineNumber" resultType="int">
+        select count(*)
+        from PRODUCTLINE
+        where USERUNIQUE= #{userUnique}
+        and FACTORYID=#{factoryId}
+    </select>
+
+    <select id="findProductLineStatus" resultType="int">
+        select STATUS
+        from PRODUCTLINE
+        where USERUNIQUE=#{userUnique}
+        and PRODUCTLINEID=#{productLineId}
+    </select>
+
+    <select id="findProductNameByProductLine" resultType="string">
+        select PRODUCTNAME
+        from PRODUCTLINE
+        where USERUNIQUE=#{userUnique}
+        and PRODUCTLINEID=#{productLineId}
+    </select>
+
+    <select id="findProductLineType" resultType="string">
+        select PRODUCTLINETYPE
+        from PRODUCTLINE
+        where USERUNIQUE=#{userUnique}
+        and PRODUCTLINEID=#{productLineId}
+    </select>
+
+    <select id="findProductLineFinishPeriod" resultType="int">
+        select FINISHPERIOD
+        from PRODUCTLINE
+        where USERUNIQUE=#{userUnique}
+        and PRODUCTLINEID=#{productLineId}
+    </select>
+
+    <select id="findProductLineInfoByProductlineid"
+            resultMap="ProductLineInfoResult" parameterType="string">
+        select PRODUCTLINE.USERUNIQUE,PRODUCTLINE.PRODUCTLINEID,
+               PRODUCTLINE.PRODUCTLINETYPE,PRODUCTLINE.STATUS,
+               PRODUCTLINE.FACTORYID,PRODUCTLINE.PRODUCTNAME,
+               PRODUCTFINISHPERIOD,FINISHPERIOD,SELLPRICE
+        from PRODUCTLINE,PRODUCTLINEBASIC
+        where PRODUCTLINE.PRODUCTLINEID=#{productLineId}
+        and PRODUCTLINEBASIC.PRODUCTLINETYPE=PRODUCTLINE.PRODUCTLINETYPE
+    </select>
+
+    <insert id="addProductLine">
+        insert into PRODUCTLINE(USERUNIQUE,FACTORYID,PRODUCTLINETYPE,STATUS,
+                    PRODUCTNAME,PRODUCTFINISHPERIOD,SELLPRICE,FINISHPERIOD)
+        values(#{userUnique},#{factoryId},#{productLineType},'0',
+               #{productName},'0','0','0')
+    </insert>
+
+    <update id="updateProductLineStatusTofive">
+        update PRODUCTLINE
+        set STATUS= 5,FINISHPERIOD=0,PRODUCTFINISHPERIOD=0,PRODUCTNAME=#{productName}
+        where USERUNIQUE=#{userUnique}
+        and PRODUCTLINEID=#{productLineId}
+    </update>
+
+    <update id="updateProductLineStatus">
+        update PRODUCTLINE
+        set STATUS = #{status}
+        where USERUNIQUE = #{userUnique}
+        and PRODUCTLINEID = #{productLineId}
+    </update>
+
+    <delete id="deleteProductLine" >
+        delete
+        from PRODUCTLINE
+        where USERUNIQUE=#{userUnique}
+        and PRODUCTLINEID=#{productLineId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cqupt.mis.erp.manager.finance.CashSheetDao">
+    <select id="findCash" parameterType="string" resultType="double">
+        select CASH
+        from CASHSHEET
+        where USERUNIQUE = #{userUnique}
+    </select>
+
+    <update id="addCash">
+        update CASHSHEET
+        set CASH = CASH + #{cash}
+        where USERUNIQUE = #{userUnique}
+    </update>
+
+    <update id="subtractCash">
+        update CASHSHEET
+        set CASH = CASH - #{cash}
+        where USERUNIQUE = #{userUnique}
+    </update>
+</mapper>

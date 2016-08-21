@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.factory.FactoryRentingDao">
+    <resultMap type="com.cqupt.mis.erp.model.factory.FactoryCommonInfo" id="FactoryCommonInfoResult">
+        <id column="USERUNIQUE" property="userUnique" />
+        <id column="FACTORYID" property="factoryId" />
+        <result column="FACTORYTYPE" property="factoryType" />
+        <result column="SELLPRICE" property="sellPrice" />
+        <result column="PLACE" property="place" />
+        <result column="BEGINTIME" property="beginTime" />
+        <result column="FINISHTIME" property="finishTime" />
+        <result column="FINISHEDPERIOD" property="finishedPeriod" />
+        <result column="CAPACITY" property="capacity" />
+        <result column="PRODUCTLINENUMBER" property="productLineNumber" />
+        <result column="RENTCOST" property="rentCost" />
+        <result column="NEEDPERIOD" property="needPeriod" />
+        <result column="STATUS" property="status" />
+        <result column="PAYMODE" property="payMode" />
+        <result column="MAKEPERIOD" property="makePeriod" />
+        <result column="SELLDESCRIPTION" property="sellDescription" />
+    </resultMap>
+    <!-- 租用厂房 -->
+    <select id="findFactoryRents" parameterType="string" resultMap="FactoryCommonInfoResult">
+        select FACTORY_RENTING.USERUNIQUE,FACTORY_RENTING.FACTORYID,FACTORY_RENTING.FACTORYTYPE,
+               FACTORY_RENTING.PLACE,FACTORY_RENTING.BEGINTIME,FACTORY_RENTING.RENTCOST,
+               FACTORY_RENTING.NEEDPERIOD,CAPACITY,count(PRODUCTLINE.PRODUCTLINEID) as PRODUCTLINENUMBER
+        from FACTORYBASIC,FACTORY_RENTING
+        left join PRODUCTLINE
+          ON FACTORY_RENTING.FACTORYID=PRODUCTLINE.FACTORYID
+          and FACTORY_RENTING.USERUNIQUE=PRODUCTLINE.USERUNIQUE
+        where FACTORY_RENTING.USERUNIQUE = #{userUnique}
+        and FACTORY_RENTING.FACTORYTYPE=FACTORYBASIC.FACTORYTYPE
+        group by FACTORY_RENTING.USERUNIQUE,FACTORY_RENTING.FACTORYID,
+                 FACTORY_RENTING.FACTORYTYPE,FACTORY_RENTING.PLACE,
+                 FACTORY_RENTING.BEGINTIME,FACTORY_RENTING.RENTCOST,
+                 FACTORY_RENTING.NEEDPERIOD,CAPACITY
+    </select>
+
+    <!-- 租用厂房 -->
+    <select id="findFactoryRentsByMarketName"  resultMap="FactoryCommonInfoResult">
+        select FACTORY_RENTING.USERUNIQUE,FACTORY_RENTING.FACTORYID,FACTORY_RENTING.FACTORYTYPE,FACTORY_RENTING.PLACE,FACTORY_RENTING.BEGINTIME,FACTORY_RENTING.RENTCOST,FACTORY_RENTING.NEEDPERIOD,CAPACITY,count(PRODUCTLINE.PRODUCTLINEID) as PRODUCTLINENUMBER
+        from FACTORYBASIC,FACTORY_RENTING
+        left join PRODUCTLINE ON FACTORY_RENTING.FACTORYID=PRODUCTLINE.FACTORYID and FACTORY_RENTING.USERUNIQUE=PRODUCTLINE.USERUNIQUE
+        where FACTORY_RENTING.USERUNIQUE = #{userUnique}
+        and FACTORY_RENTING.PLACE like #{marketName}
+        and FACTORY_RENTING.FACTORYTYPE=FACTORYBASIC.FACTORYTYPE
+        group by FACTORY_RENTING.USERUNIQUE,FACTORY_RENTING.FACTORYID,FACTORY_RENTING.FACTORYTYPE,FACTORY_RENTING.PLACE,FACTORY_RENTING.BEGINTIME,FACTORY_RENTING.RENTCOST,FACTORY_RENTING.NEEDPERIOD,CAPACITY
+    </select>
+
+    <select id="findProductLineNumberIsNull"
+            resultMap="FactoryCommonInfoResult">
+        select FACTORY_RENTING.FACTORYID,FACTORY_RENTING.FACTORYTYPE,FACTORY_RENTING.PLACE,
+               FACTORY_RENTING.RENTCOST,FACTORY_RENTING.BEGINTIME,NEEDPERIOD,CAPACITY
+        from FACTORYBASIC,FACTORY_RENTING
+        where FACTORY_RENTING.USERUNIQUE=#{userUnique}
+        and FACTORY_RENTING.FACTORYID=#{factoryId}
+        and FACTORY_RENTING.FACTORYTYPE=FACTORYBASIC.FACTORYTYPE
+    </select>
+
+    <!-- FACTORY_RENTING表中的“厂房编号（FactoryID）”，“厂房类型（FactoryType）”，“所在位置(Place)”,“每期需要交纳的租金(RentCost)”，“开始租赁的时间(BeginTime)”“厂房可用需要等待的周期数（NeedPeriod）”
+    FACTORY_BASIC表中的“能容纳的生产线数量(Capacity)”； 从PRODUCTLINE表中根据计算得到“已安装的生产线数量（这是计算字段，根据UserUnique和FactoryID在PRODUCTLINE表中进行计数得到.”。 -->
+
+    <select id="findRentDetail" resultMap="FactoryCommonInfoResult">
+        select FACTORY_RENTING.FACTORYID,FACTORY_RENTING.FACTORYTYPE,FACTORY_RENTING.PLACE,
+               FACTORY_RENTING.RENTCOST,FACTORY_RENTING.BEGINTIME,NEEDPERIOD,CAPACITY,
+               count(PRODUCTLINE.PRODUCTLINEID) PRODUCTLINENUMBER
+        from FACTORYBASIC,FACTORY_RENTING
+        left join PRODUCTLINE
+        ON FACTORY_RENTING.FACTORYID=PRODUCTLINE.FACTORYID
+        and FACTORY_RENTING.USERUNIQUE=PRODUCTLINE.USERUNIQUE
+        where FACTORY_RENTING.USERUNIQUE=#{userUnique}
+        and FACTORY_RENTING.FACTORYID=#{factoryId}
+        and FACTORY_RENTING.FACTORYTYPE=FACTORYBASIC.FACTORYTYPE
+        group by FACTORY_RENTING.FACTORYID,FACTORY_RENTING.Factorytype,FACTORY_RENTING.PLACE,
+                 FACTORY_RENTING.RENTCOST,FACTORY_RENTING.BEGINTIME,NEEDPERIOD,CAPACITY
+    </select>
+
+    <insert id="addRentFactory">
+        insert into FACTORY_RENTING(USERUNIQUE,FACTORYTYPE,PLACE,BEGINTIME,RENTCOST,NEEDPERIOD)
+        values(#{userUnique},#{factoryType},#{place},#{beginTime},#{rentCost},#{needPeriod})
+    </insert>
+
+    <delete id="deleteRentedFactory">
+        delete
+        from FACTORY_RENTING
+        where USERUNIQUE=#{userUnique}
+        and FACTORYID=#{factoryId}
+    </delete>
+
+</mapper>
+
+

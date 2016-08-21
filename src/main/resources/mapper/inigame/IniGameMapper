@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.inigame.IniGameDao">
+    <select id="iniGameByPLSQL" statementType="CALLABLE" resultType="INTEGER">
+        {#{result,mode=OUT,jdbcType=VARCHAR}=call inigame(#{groupName,mode=IN,jdbcType=VARCHAR})}
+    </select>
+
+    <select id="forward_game" statementType="CALLABLE" parameterType="map" resultType="INTEGER">
+        {#{result,mode=OUT,jdbcType=VARCHAR}=call biz_next_deal(#{userUnique,mode=IN,jdbcType=VARCHAR})}
+    </select>
+
+</mapper>

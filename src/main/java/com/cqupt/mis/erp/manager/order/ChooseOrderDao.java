@@ -1,112 +1,119 @@
 package com.cqupt.mis.erp.manager.order;
 
-import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.order.ChooseOrder;
 import com.cqupt.mis.erp.model.vo.ChooseOrderVO;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Created by 杨青 on 2016/8/14.
+ */
 @Repository("chooseOrderDao")
-public interface ChooseOrderDao extends BaseDao {
-
+public interface ChooseOrderDao {
     /**
-     * addChooseOrder 加入选择订单的顺序的数据
+     * 加入选择订单的顺序的数据
      *
      * @param userUnique
      * @param period
      * @param marketName
      * @param productName
      * @param groupName
-     * @param sequence    void
-     * @throws
-     * @author hhy
-     * @since 1.0.0
+     * @param sequence
+     * @return
      */
-    public void addChooseOrder(String userUnique, Integer period, String marketName, String productName, String groupName, Integer sequence);
+    int addChooseOrder(@Param("userUnique") String userUnique,
+                       @Param("period") Integer period,
+                       @Param("marketName") String marketName,
+                       @Param("productName") String productName,
+                       @Param("groupName") String groupName,
+                       @Param("sequence") Integer sequence);
 
     /**
-     * updateChooseOrderValue 更新选单顺序.chooseValue 大于10000 之后就是剔除用户不在序列当中.
+     * 更新选单顺序.chooseValue 大于10000 之后就是剔除用户不在序列当中.
      *
      * @param userUnique
      * @param period
-     * @param chooseValue void
-     * @throws
-     * @author hhy
-     * @since 1.0.0
+     * @param chooseValue
+     * @param productName
+     * @param marketName
+     * @return
      */
-    public void updateChooseOrderValue(String userUnique, Integer period, Integer chooseValue, String productName, String marketName);
+    @CacheEvict(value = "ChooseOrderVO", allEntries = true, beforeInvocation = true)
+    int updateChooseOrderValue(@Param("userUnique") String userUnique,
+                               @Param("period") Integer period,
+                               @Param("chooseValue") Integer chooseValue,
+                               @Param("productName") String productName,
+                               @Param("marketName") String marketName);
 
     /**
-     * updateChooseOrderValue 根据orderId来改变choosevalue
+     * 根据orderId来改变choosevalue
      *
-     * @param orderId void
-     * @throws
-     * @author hhy
-     * @since 1.0.0
+     * @param orderId
+     * @param chooseValue
+     * @return
      */
-    public void updateChooseOrderValue(String orderId, Integer chooseValue);
+    @CacheEvict(value = "ChooseOrderVO", allEntries = true, beforeInvocation = true)
+    int updateChooseOrderValueByOrderId(@Param("orderId") String orderId,
+                                        @Param("chooseValue") Integer chooseValue);
 
     /**
-     * updateChooseOrderValue
      * 根据userunique 来找到所有的的chooserorder 选项然后 直接更新到 chooservalue 值.
-     * 可以用来结束所有的市场
      *
      * @param chooseValue
-     * @param userUnique  void
-     * @throws
-     * @author hhy
+     * @param userUnique
+     * @return
      */
-    public void updateChooseOrderValue(Integer chooseValue, String userUnique);
+    @CacheEvict(value = "ChooseOrderVO", allEntries = true, beforeInvocation = true)
+    int updateChooseOrderValueByUserUnique(@Param("chooseValue") Integer chooseValue,
+                                           @Param("userUnique") String userUnique);
 
     /**
-     * findChooseOrderByMarketNameAndProductName 根据marketname 和 productname 来得到相应的订单信息.
-     * 但是只是显示投过广告费用的那些市场.和投过广告的产品
-     *
-     * @param userUnique  用户的唯一标识
-     * @param marketName  市场名称
-     * @param productName 产品名称
-     * @return List<ChooseOrderVO>
-     * @throws
-     * @author hhy
-     * @since 1.0.0
-     */
-    public List<ChooseOrderVO> findChooseOrderByMarketNameAndProductName(String userUnique, String marketName, String productName);
-
-    /**
-     * findChooseOrderUser
-     *
      * @param marketName
      * @param productName
      * @param period
      * @param groupName
-     * @return String
-     * @throws
-     * @author hhy
-     * @since 1.0.0
+     * @return
      */
-    public String findChooseOrderUser(String marketName, String productName, Integer period, String groupName);
-
+    String findChooseOrderUser(@Param("marketName") String marketName,
+                               @Param("productName") String productName,
+                               @Param("period") Integer period,
+                               @Param("groupName") String groupName);
 
     /**
-     * findChooseOrderByUserUnique
-     * 根据用户的信息来找到相应当前的周期能够选择订单的     市场 和 产品区域
+     * 根据用户的信息来找到相应当前的周期能够选择订单的市场和产品区域
      * 这个用在结束某个订货会的方法.
      *
      * @param userUnique
-     * @return List<ChooseOrder>
-     * @throws
-     * @author hhy
-     * @since 1.0.0
+     * @return
      */
-    public List<ChooseOrder> findChooseOrderByUserUnique(String userUnique);
+    List<ChooseOrder> findChooseOrderByUserUnique(String userUnique);
 
     /**
      * 加入缓存刷新
+     * 清空缓存
      */
-    public void refreshChooseOrderCache();
+    @CacheEvict(value = "ChooseOrderVO", allEntries = true, beforeInvocation = true)
+    void refreshChooseOrderCache();
 
-    public List<ChooseOrderVO> findChooseOrderByMarketNameAndProductNameCacheWithGroup(
-            String gameGroupName, String marketName, String productName,
-            String userUnique);
+    /**
+     * 这里的缓存如果还有问题， 就直接注释了。
+     * @param period
+     * @param gameGroupName
+     * @param marketName
+     * @param productName
+     * @param userUnique
+     * @return
+     */
+    @Cacheable(value = {"ChooseOrderVO"}, key = "#period+#gameGroupName+#marketName+#productName")
+    List<ChooseOrderVO> findChooseOrderByMarketNameAndProductNameCacheWithGroup(
+                    @Param("period") int period,
+                    @Param("gameGroupName") String gameGroupName,
+                    @Param("marketName") String marketName,
+                    @Param("productName") String productName,
+                    @Param("userUnique") String userUnique);
+
 }

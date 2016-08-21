@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.finance.BalanceSheetTextBasicDao">
+    <resultMap type="com.cqupt.mis.erp.model.finance.BalanceSheet"
+               id="find_map">
+        <result column="col1" property="allValue" />
+        <result column="col2" property="rows" />
+        <result column="col3" property="cols" />
+    </resultMap>
+
+    <select id="findMaxRowNum" resultType="int">
+        select max(ROWNUMBER)
+        from BALANCESHEETTEXTBASIC
+    </select>
+
+    <select id="findMaxColNum" resultType="int">
+        select max(COLNUMBER)
+        from BALANCESHEETTEXTBASIC
+    </select>
+
+</mapper>

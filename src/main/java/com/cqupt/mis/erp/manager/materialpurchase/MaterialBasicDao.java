@@ -1,17 +1,23 @@
 package com.cqupt.mis.erp.manager.materialpurchase;
 
-import com.cqupt.mis.erp.manager.tool.BaseDao;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Created by 杨青 on 2016/8/14.
+ */
 @Repository("materialBasicDao")
-public interface MaterialBasicDao extends BaseDao {
+public interface MaterialBasicDao {
     /**
      * 查询特定原材料的单价
-     *
      * @param materialName
      * @return
-     * @author zy
      */
-    public float findMateriaPrice(String materialName);
+    float findMateriaPrice(String materialName);
 
+    /**
+     * 收集额外数据 endtime 为购买原材料收集数据
+     * @param materialName
+     * @return
+     */
+    int findDelayTime(String materialName);
 }

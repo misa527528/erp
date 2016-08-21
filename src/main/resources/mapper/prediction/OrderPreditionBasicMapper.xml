@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.prediction.OrderPredictionBasicDao">
+
+    <select id="findAllOrderPredictionBasic"
+            resultType="com.cqupt.mis.erp.model.order.OrderPredictionBasic">
+        select productName,price,mount,priceDifference,
+               MountDifference,PriceFloat,MountFloat
+        from ORDERPREDICTIONBASIC
+    </select>
+
+
+</mapper>

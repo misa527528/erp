@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.finance.WillReceiveDao">
+
+    <select id="getWillReceive" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.finance.WillReceive">
+        select WILLRECEIVEID,MONEY,BEGINTIME,ENDTIME,WILLRECEIVEDESCRIPTION
+        from WILLRECEIVE
+        where USERUNIQUE = #{userUnique}
+    </select>
+
+    <select id="getMoney" resultType="double">
+        select MONEY
+        from WILLRECEIVE
+        where USERUNIQUE = #{userUnique}
+        and WILLRECEIVEID = #{willReceiveID}
+    </select>
+
+    <select id="insert" parameterType="com.cqupt.mis.erp.model.finance.WillReceive">
+        INSERT INTO willreceive (USERUNIQUE,money,begintime,endtime,willReceiveDescription,note)
+        values(#{userUnique}, #{money}, #{beginTime}, #{endTime}, #{willReceiveDescription}, #{note})
+    </select>
+
+    <delete id="delete">
+        delete
+        from WILLRECEIVE
+        where USERUNIQUE = #{userUnique}
+        and WILLRECEIVEID = #{willReceiveID}
+    </delete>
+
+</mapper>

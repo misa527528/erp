@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.advertisement.AdStatusOfUserDao">
+    <select id="findFinishAdFlag" resultType="int">
+        select finishadflag
+        from adstatusofuser
+        where userUnique=#{userUnique}
+        and period=#{currentPeriod}
+    </select>
+
+    <select id="findAdvertisementStatusOfUserByUserUniques"
+            resultType="com.cqupt.mis.erp.model.advertisement.AdvertisementStatusOfUser">
+        select USERUNIQUE,PERIOD,FINISHADFLAG
+        as finishAdvertiseFlag,FINISHORDERFLAG,CHOOSEORDERFLAG
+        from adstatusofuser
+        where userunique
+        in
+        <foreach collection="userUniques" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and period=#{period}
+    </select>
+
+    <select id="findAdvertisementStatusOfUserByUserUnique"
+            resultType="com.cqupt.mis.erp.model.advertisement.AdvertisementStatusOfUser">
+        select USERUNIQUE,PERIOD,FINISHADFLAG
+        as finishAdvertiseFlag,FINISHORDERFLAG,CHOOSEORDERFLAG
+        from adstatusofuser
+        where userunique=#{userUnique}
+        and period=#{period}
+    </select>
+
+    <select id="findFinishOrderFlag" parameterType="string" resultType="int" >
+        select finishorderflag
+        from adstatusofuser
+        where userunique=#{userUnique}
+        and  period=(select max(period)
+                     from adofuser
+                     where userunique=#{userUnique})
+    </select>
+
+    <select id="findAllStatusVOByUserUnique" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.vo.AdvertisementUserStatusVO">
+        select  FINISHADFLAG as status,approveduser.username as name,approveduser.userid as userId
+        from adstatusofuser ,
+          (select userid,userunique
+           from gamegroupmember
+           where groupname=(select groupname
+                            from gamegroupmember
+                            where userunique=#{userUnique})) u
+        ,approveduser
+        where  adstatusofuser.userunique= u.userunique
+        and u.userid=approveduser.userid
+        and adstatusofuser.period= (select max(period)
+                                    from adofuser
+                                    where userunique=#{userUnique})
+    </select>
+
+    <update id="updateFinishAdFlag" >
+        update adstatusofuser
+        set finishadflag=#{finishFlag}
+        where userunique=#{userUnique}
+        and period=#{period}
+    </update>
+
+    <update id="updateFinishOrderFlag" >
+        update adstatusofuser
+        set finishorderflag=#{finishFlag}
+        where userunique=#{userUnique}
+        and period=#{period}
+    </update>
+
+    <!-- mysql 中去掉 begin 和end  -->
+    <update id="updateChooseOrderFlag" >
+        <foreach collection="userUniques" item="item" index="index" separator=";" >
+            update adstatusofuser
+            <set>
+                chooseOrderFlag=#{chooseOrderFlag}
+            </set>
+            where userunique=#{item} and period =#{period}
+        </foreach>
+    </update>
+
+    <insert id="addAdStatusOfUser">
+        insert into adstatusofuser(userunique, period, finishadflag,
+                                  finishorderflag, chooseorderflag)
+        values (#{userUnique},#{period},#{finishadflag},
+                #{finishorderflag},#{chooseorderflag})
+    </insert>
+ </mapper>

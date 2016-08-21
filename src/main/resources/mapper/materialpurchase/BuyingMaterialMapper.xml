@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.materialpurchase.BuyingMaterialDao">
+    <resultMap
+            type="com.cqupt.mis.erp.model.materialpurchase.MaterialPurchaseRecord"
+            id="recordResult">
+        <id column="ORDERID" property="orderId" />
+        <result column="USERUNIQUE" property="userUnique" />
+        <result column="MATERIALNAME" property="materialName" />
+        <result column="HAPPENTIME" property="happenTime" />
+        <result column="ENDTIME" property="endTime" />
+        <result column="MNUMBER" property="materialNumber" />
+        <result column="WAREHOUSENAME" property="wareHouseName" />
+    </resultMap>
+
+    <select id="findMaterialOrdersReach" resultMap="recordResult">
+        <![CDATA[
+            SELECT ORDERID,USERUNIQUE,MATERIALNAME, MNUMBER,WAREHOUSENAME,HAPPENTIME,ENDTIME
+            FROM BUYINGMATERIAL
+            WHERE userUnique=#{userUnique}
+            AND ENDTIME <= #{currentTime}
+            order by ORDERID
+            desc limit  #{start} , #{end}
+	]]>
+
+    </select>
+
+    <select id="findMaterialOrdersReachCount" resultType="int">
+        <![CDATA[
+            select count(*)
+            from BUYINGMATERIAL
+            where userUnique=#{userUnique}
+            and ENDTIME <= #{currentTime}
+	]]>
+    </select>
+
+    <select id="findMaterialOrdersUnReach" resultMap="recordResult">
+        select ORDERID,USERUNIQUE,MATERIALNAME,
+               MNUMBER,WAREHOUSENAME,HAPPENTIME,ENDTIME
+        from BUYINGMATERIAL
+        where userUnique=#{userUnique}
+        and ENDTIME > #{currentTime}
+        order by ORDERID
+        desc limit #{start}, #{end}
+    </select>
+
+    <select id="findAllMaterialOrders" resultMap="recordResult">
+        SELECT ORDERID,USERUNIQUE,MATERIALNAME,
+               MNUMBER,WAREHOUSENAME,HAPPENTIME,ENDTIME
+        FROM BUYINGMATERIAL
+        WHERE userUnique=#{userUnique}
+        ORDER BY ORDERID
+        DESC LIMIT #{start}, #{end}
+    </select>
+
+    <select id="findMaterialOrdersReachUnCount" resultType="int">
+        select count(*)
+        from BUYINGMATERIAL
+        where userUnique=#{userUnique}
+        and ENDTIME > #{currentTime}
+    </select>
+</mapper>
+
+
+
+
+

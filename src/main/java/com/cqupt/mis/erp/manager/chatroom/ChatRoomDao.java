@@ -1,16 +1,21 @@
 package com.cqupt.mis.erp.manager.chatroom;
 
 import com.cqupt.mis.erp.model.chatroom.ChatRoom;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
-@Repository("chatRoomDao")
+/**
+ * Created by 杨青 on 2016/8/13.
+ */
 public interface ChatRoomDao {
+    @Cacheable(value="chatrecords",key="#groupName")
+    List<ChatRoom> findChatRecords(@Param("GroupName") String GroupName,
+                                   @Param("numOfRecords") Integer numOfRecords);
 
-    public List<ChatRoom> findChatRecords(String GroupName, Integer numOfRecords);
+    int addRecord(@Param("userName") String userName,
+                  @Param("record") String record,
+                  @Param("groupName") String groupName);
 
-    public void addRecord(String userName, String record, String groupName);
-
-    void refreshRecord();
 }

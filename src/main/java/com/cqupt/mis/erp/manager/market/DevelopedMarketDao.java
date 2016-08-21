@@ -1,46 +1,42 @@
 package com.cqupt.mis.erp.manager.market;
 
-import com.cqupt.mis.erp.manager.tool.BaseDao;
 import com.cqupt.mis.erp.model.market.DevelopedMarket;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Created by 杨青 on 2016/8/14.
+ */
 @Repository("developedMarketDao")
-public interface DevelopedMarketDao extends BaseDao {
+public interface DevelopedMarketDao {
     /**
-     * findDevelopedMarketsByUserUnique
      * 根据userUnique 来查找已经开发成功的市场
-     *
      * @param userUnique
-     * @return List<DevelopedMarket>
-     * @throws
-     * @author hhy
-     * @since 1.0.0
+     * @return
      */
-    public List<DevelopedMarket> findDevelopedMarketsByUserUnique(String userUnique);
+    List<DevelopedMarket> findDevelopedMarketsByUserUnique(String userUnique);
 
     /**
-     * updateStopMaintainDevelopedMarket 停止维护已经开发的市场
-     *
-     * @param userUnique
-     * @param marketName void
-     * @param status
-     * @throws
-     * @author hhy
-     * @since 1.0.0
-     */
-    public void updateStopMaintainDevelopedMarket(String userUnique, String marketName, int status);
-
-    /**
-     * isDevelopedMarket 判断市场是否已经开拓完毕.
-     *
+     * 停止维护已经开发的市场
      * @param userUnique
      * @param marketName
-     * @return false 没有开发完 true 已经开发完
-     * Boolean
-     * @throws
-     * @since 1.0.0
+     * @param status
+     * @return
      */
-    public Boolean isDevelopedMarket(String userUnique, String marketName);
+    int updateStopMaintainDevelopedMarket(@Param("userUnique") String userUnique,
+                                          @Param("marketName") String marketName,
+                                          @Param("status") int status);
+
+    /**
+     * 通过userUnique、marketName来查找DevelopedMarket
+     * @param userUnique
+     * @param marketName
+     * @return
+     * @Since
+     */
+    DevelopedMarket findDevelopedMarket(@Param("userUnique") String userUnique,
+                                        @Param("marketName") String marketName);
+
 }

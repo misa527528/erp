@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.factory.FactoryBasicDao">
+    <resultMap type="com.cqupt.mis.erp.model.factory.FactoryBasicInfo" id="FactoryBasicResult">
+        <id column="FACTORYTYPE" property="factoryType" />
+        <result column="MAKEPERIOD" property="makePeriod" />
+        <result column="MAKECOST" property="makeCost" />
+        <result column="CASHPRICE" property="cashPrice" />
+        <result column="MAKEDESCRIPTION" property="makeDescription" />
+        <result column="DEPRECIATION" property="depreciation" />
+        <result column="STUMPCOST" property="stumpCost" />
+        <result column="CAPACITY" property="capacity" />
+        <result column="RENTCOST" property="rentcost" />
+        <result column="RENTAVAILABLEPERIOD" property="rentAvailablePeriod" />
+        <result column="SELLDIFFERENTPRICE" property="sellDifferentPrice" />
+        <result column="DELAYTIME" property="delayTime" />
+        <result column="SELLDESCRIPTION" property="sellDescription" />
+        <result column="MAINTAINCOST" property="maintainCost" />
+    </resultMap>
+
+    <select id="findAllFactoryType" resultType="string">
+        select factorytype
+        from factorybasic
+    </select>
+
+    <select id="findAllFactoryBasics" resultMap="FactoryBasicResult">
+        select FACTORYTYPE,RENTCOST,RENTAVAILABLEPERIOD
+        from FACTORYBASIC
+        where FACTORYTYPE
+        like '%'
+    </select>
+
+    <select id="findUniqueFactoryBasic" parameterType="string"
+            resultMap="FactoryBasicResult">
+        select FACTORYTYPE,RENTCOST,RENTAVAILABLEPERIOD
+        from FACTORYBASIC
+        where FACTORYTYPE=#{factoryType}
+    </select>
+
+    <select id="findFactoryDelayTime" parameterType="string" resultType="int">
+        select delayTime
+        from factorybasic
+        where factoryType=#{factoryType}
+    </select>
+
+    <select id="findFactoryCapacity" resultType="int">
+        SELECT CAPACITY
+        FROM FACTORYBASIC ,
+        (
+         (SELECT FACTORYTYPE FROM FACTORY_USING WHERE USERUNIQUE=#{userUnique} AND FACTORYID=#{factoryId})
+          UNION
+          (SELECT FACTORYTYPE FROM FACTORY_RENTING WHERE USERUNIQUE=#{userUnique} AND FACTORYID=#{factoryId})
+        )t
+        WHERE factorybasic.`FACTORYTYPE` = t.`FACTORYTYPE`
+    </select>
+</mapper>
+

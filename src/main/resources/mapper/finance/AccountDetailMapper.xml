@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.finance.AccountDetailDao">
+    <insert id="addAccountDetail"
+            parameterType="com.cqupt.mis.erp.model.finance.AccountDetail">
+        insert into ACCOUNTDETAIL
+        values(#{userUnique},#{accountId},#{item},#{money},#{itemType},#{calValue})
+    </insert>
+
+    <select id="findAccountDetail"
+            resultType="com.cqupt.mis.erp.model.finance.AccountDetail">
+        select *
+        from ACCOUNTDETAIL
+        where USERUNIQUE = #{userUnique}
+        and ACCOUNTID &lt;= #{maxID}
+        and ACCOUNTID &gt;= #{minID}
+        order by ACCOUNTID ASC, ITEMTYPE DESC
+    </select>
+
+</mapper>

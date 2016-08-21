@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.materialpurchase.MaterialBasicDao">
+    <resultMap type="com.cqupt.mis.erp.model.materialpurchase.MaterialBasic"
+               id="MaterialBasicResult">
+        <result column="MATERIALNAME" property="materialName" />
+        <result column="PRICE" property="price" />
+        <result column="DELAYTIME" property="delayTime" />
+    </resultMap>
+
+    <select id="findMateriaPrice" parameterType="string" resultType="float">
+        select PRICE
+        from MATERIALBASIC
+        where MATERIALNAME=#{materialName}
+    </select>
+
+    <select id="findDelayTime" parameterType="string"
+            resultType="int">
+        select DELAYTIME
+        from MATERIALBASIC
+        where MATERIALNAME=#{materialName}
+    </select>
+</mapper>

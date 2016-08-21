@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.registerlogin.GameGroupDao">
+    <resultMap id="gamegroups"
+               type="com.cqupt.mis.erp.manager.registerlogin.GameGroupDao">
+        <result property="groupName" column="GROUPNAME" />
+        <result property="groupCreaterId" column="GROUPCREATERID" />
+        <result property="userNumbers" column="USERNUMBERS" />
+        <result property="joinNumber" column="JOINNUMBER" />
+        <result property="remandNumber" column="REMANDNUMBER" />
+        <result property="currentPeriod" column="CURRENTPERIOD" />
+    </resultMap>
+
+    <resultMap type="com.cqupt.mis.erp.model.registerlogin.GameGroupMemberStatus"
+               id="GameGroupMemberStatusResult">
+        <id column="USERUNIQUE" property="userUnique" />
+        <result column="GROUPNAME" property="groupName" />
+        <result column="USERNAME" property="userName" />
+        <result column="CURRENTPERIOD" property="currentPeriod" />
+        <result column="STATUS" property="status" />
+        <result column="FINISHADFLAG" property="finishAdFlag" />
+        <result column="FINISHORDERFLAG" property="finishOrderFlag" />
+        <result column="CHOOSEORDERFLAG" property="chooseOrderFlag" />
+        <result column="PERIODSOFONEYEAR" property="periodsOfOneYear" />
+        <result column="YEARS" property="year" />
+        <result column="SEASON" property="season" />
+    </resultMap>
+
+    <select id="findAllGameGroupList" resultMap="gamegroups">
+        select GAMEGROUP.GROUPNAME, GAMEGROUP.GROUPCREATERID, USERNUMBERS,
+        count(*) as JOINNUMBER, USERNUMBERS-count(*) as REMANDNUMBER,GAMEGROUP.CURRENTPERIOD
+        from GAMEGROUPMEMBER,GAMEGROUP
+        where GAMEGROUPMEMBER.GROUPNAME=GAMEGROUP.GROUPNAME
+        group by GAMEGROUP.GROUPNAME,GAMEGROUP.GROUPCREATERID,
+                 USERNUMBERS,GAMEGROUP.CURRENTPERIOD
+        having USERNUMBERS-count(*)>0
+        and GAMEGROUP.CURRENTPERIOD=0
+    </select>
+
+    <select id="findGameGroupInfoByGroupName" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.registerlogin.GameGroupInfo" >
+        select GROUPNAME,GROUPCREATERID,USERNUMBERS,YEARS,PERIODSOFONEYEAR,
+               CURRENTPERIOD,AUTOPERIODFRESH,AUTOYEARFRESH,
+               ENABLEAUTOPERIODFRESH,ENABLEAUTOYEARFRESH
+        from GAMEGROUP
+        where GROUPNAME=#{groupName}
+    </select>
+
+    <select id="findYearsByGroupName" resultType="int"
+            parameterType="string">
+        select YEARS
+        from GAMEGROUP
+        where GROUPNAME=#{groupName}
+    </select>
+
+    <select id="findGameGroupInfoByUserUnique" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.registerlogin.GameGroupInfo">
+        select GROUPNAME,GROUPCREATERID,USERNUMBERS,YEARS,PERIODSOFONEYEAR,
+               CURRENTPERIOD,AUTOPERIODFRESH,AUTOYEARFRESH,
+               ENABLEAUTOPERIODFRESH,ENABLEAUTOYEARFRESH
+        from GAMEGROUP
+        where GROUPNAME in (select GROUPNAME
+                            from gamegroupmember
+                            where userunique=#{userUnique})
+    </select>
+
+    <select id="findGameGroupYearAndCurrentPeriod" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.registerlogin.GameGroupInfo">
+        select gamegroupmember.currentperiod,periodsofoneyear,years
+        from gamegroupmember,gamegroup
+        where gamegroupmember.groupname=gamegroup.groupname
+        and userunique=#{userUnique}
+    </select>
+
+    <select id="findCurrentPeriodByGroupName" resultType="int"
+            parameterType="string">
+        select currentperiod
+        from gamegroup
+        where groupName=#{groupName}
+    </select>
+
+    <select id="findGameGroupVO" parameterType="map"
+            resultType="com.cqupt.mis.erp.model.vo.GameGroupVO">
+        select years*periodsofoneyear
+        AS TotalPeriodOfGroup, gamegroupmember.currentperiod
+        from gamegroupmember,gamegroup
+        where userunique=#{userUnique}
+        and gamegroup.groupname=#{groupName}
+        and gamegroup.groupname=gamegroupmember.groupname
+    </select>
+
+    <select id="findAllGameGroups" resultMap="gamegroups">
+        SELECT G.GROUPNAME, A.USERNAME, G.GROUPCREATERID, G.USERNUMBERS,
+              G.YEARS, G.PERIODSOFONEYEAR, G.CURRENTPERIOD
+        FROM GAMEGROUP G, APPROVEDUSER A
+        WHERE G.GROUPCREATERID = A.USERID
+    </select>
+
+    <select id="findGameGroupMemberStatusByGroupName" parameterType="string"
+            resultMap="GameGroupMemberStatusResult">
+        select DISTINCT approveduser.USERNAME, g.years , m.userUnique,
+                        m.groupName, m.currentperiod, m.status,
+                        g.periodsofoneyear, a.finishadflag,
+                        a.chooseorderflag, a.finishorderflag
+        from (gamegroupmember m, gamegroup g, adstatusofuser a ,approveduser)
+        where approveduser.USERID = m.USERID
+        and m.userunique = a.userunique
+        and g.groupname = m.groupname
+        and m.groupName = #{groupName}
+        and a.period in(select (floor(ggm.CURRENTPERIOD/gg.PERIODSOFONEYEAR)*gg.PERIODSOFONEYEAR+1) as period
+        from gamegroup gg,gamegroupmember ggm
+        where gg.groupname = ggm.groupname
+        and ggm.groupname = #{groupName} )
+    </select>
+
+    <select id="findGameGroupMemberStatusbygroupNameWithoutStartGame"
+            resultMap="GameGroupMemberStatusResult" parameterType="string" >
+        select DISTINCT approveduser.USERNAME,g.years ,m.USERID, m.userUnique,
+                        m.groupName, m.currentperiod, m.status, g.periodsofoneyear,
+                        a.finishadflag, a.chooseorderflag, a.finishorderflag
+        FROM (gamegroupmember m,gamegroup g,approveduser)
+        LEFT JOIN adstatusofuser a
+        ON m.USERUNIQUE = a.USERUNIQUE
+        AND
+        a.period in
+        (
+            select (floor(ggm.CURRENTPERIOD/gg.PERIODSOFONEYEAR)*gg.PERIODSOFONEYEAR+1)
+            as period
+            from gamegroup gg,gamegroupmember ggm
+            where gg.groupname = ggm.groupname
+            and ggm.groupname = #{groupName}
+        )
+        where m.GROUPNAME = g.GROUPNAME
+        AND M.USERID = approveduser.USERID
+        and m.GROUPNAME = #{groupName}
+    </select>
+
+    <select id="addHistory" statementType="CALLABLE" resultType="INTEGER">
+        {#{result,mode=OUT,jdbcType=VARCHAR}
+        =call admin_change_to_history(#{groupName,mode=IN,jdbcType=VARCHAR})}
+    </select>
+
+    <!-- 这个方法不知道是哪里来的，但是是我之前写的-->
+    <select id="findGameStatus" parameterType="string" resultType="java.util.Map">
+        select STATUS
+        from gamegroupmember
+        where groupName = #{groupName}
+    </select>
+
+    <select id="findGameCreatorByUserId" parameterType="string" resultType="int">
+        select count(*)
+        from GAMEGROUPMEMBER,GAMEGROUP
+        where USERID=#{userId}
+        and GAMEGROUPMEMBER.GROUPNAME=GAMEGROUP.GROUPNAME
+        and USERID=GROUPCREATERID
+        AND STATUS>-1
+    </select>
+
+    <update id="updateGroupCurrentPeriod" >
+        update GAMEGROUP
+        set currentPeriod=#{currentPeriod}
+        where groupName=#{groupName}
+    </update>
+
+    <update id="update_gamegroup_number" parameterType="string">
+        update gamegroup
+        set usernumbers = usernumbers-1
+        where groupname = #{groupName}
+    </update>
+
+    <update id="updateUserNumbers" parameterType="string">
+        update gamegroup
+        set usernumbers = usernumbers-1
+        where groupname = #{groupName}
+    </update>
+
+
+
+</mapper>

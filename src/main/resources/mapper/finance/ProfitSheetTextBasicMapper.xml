@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.finance.ProfitSheetTextBasicDao">
+
+    <select id="findMaxRowNum" resultType="int">
+      select max(ROWNUMBER)
+      from PROFITSHEETTEXTBASIC
+    </select>
+
+    <select id="findMaxColNum" resultType="int">
+        select max(COLNUMBER)
+        from PROFITSHEETTEXTBASIC
+    </select>
+
+</mapper>

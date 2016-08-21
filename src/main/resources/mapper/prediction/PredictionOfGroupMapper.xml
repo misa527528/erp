@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cqupt.mis.erp.manager.prediction.PredictionOfGroupDao">
+    <sql id='TABLE_SEQUENCE'>predictionofgroup_preid_seq.nextval</sql>
+
+    <!--以下语句中的"predictionofgroup_preid_seq" 是数据库中已经存在的值，直接取出来用就Ok了！ -->
+    <insert id="addPredictionOfGroup">
+        insert into PREDICTIONOFGROUP(GROUPNAME,PERIOD,MARKETNAME,
+                                      PRODUCTNAME,PRICE,MOUNT,PREDICTIONID)
+        values(#{groupName},#{period},#{marketName},
+               #{productName},#{price},#{mount},predictionofgroup_preid_seq.nextval)
+    </insert>
+
+    <insert id="addPredictionOfGroups"  parameterType="list" >
+        insert into PREDICTIONOFGROUP(GROUPNAME,PERIOD,MARKETNAME,PRODUCTNAME,PRICE,MOUNT)
+        <foreach collection="list" item="itm" index="index" separator="union all" >
+            (SELECT
+            #{itm.groupName},
+            #{itm.period},
+            #{itm.marketName},
+            #{itm.productName},
+            #{itm.price},
+            #{itm.mount}
+            FROM DUAL)
+        </foreach>
+    </insert>
+
+    <select id="findAllPredictionOfGroup" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.prediction.PredictionOfGroup" >
+        select GROUPNAME,PERIOD,MARKETNAME,PRODUCTNAME,
+               PRICE,MOUNT,PREDICTIONID
+        from PREDICTIONOFGROUP
+        where GROUPNAME=#{groupName}
+    </select>
+
+    <select id="findPredictionOfGroupByMarketName"
+            resultType="com.cqupt.mis.erp.model.vo.PredictionOfGroupVO">
+        select productname,period,sum(mount) as mount,avg(price) as price
+        from predictionofGroup
+        where  groupname=#{groupName}
+        and marketname=#{marketName}
+        group by productname,period
+        order by productname
+    </select>
+</mapper>

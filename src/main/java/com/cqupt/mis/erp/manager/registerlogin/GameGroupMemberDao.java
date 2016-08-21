@@ -1,154 +1,143 @@
 package com.cqupt.mis.erp.manager.registerlogin;
 
 import com.cqupt.mis.erp.model.registerlogin.GameGroupMemberInfo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
- * Created by yangqing on 2016/6/4.
+ * Created by 杨青 on 2016/8/14.
  */
 @Repository("gameGroupMemberDao")
 public interface GameGroupMemberDao {
     /**
-     * findGameGroupMemberList 根据组名来找到所有组员的信息. 无序版
-     *
-     * @param groupName
-     * @return List<GameGroupMemberInfo>
-     * @throws
-     * @author hhy
-     * @since 1.0.0
-     */
-    public List<GameGroupMemberInfo> findGameGroupMemberList(String groupName);
-
-    /**
-     * findGroupNameByUserId 根据userID找到组名
-     *
+     * 根据userID找到组名
      * @param userID
      * @return 只返回一个组名 如果找不到返回空.
-     * String
-     * @throws
-     * @author hhy
-     * @since 1.0.0
      */
-    public String findGroupNameByUserId(String userID);
+    String findGroupNameByUserId(String userID);
 
     /**
-     * updateGameGroupMember 作更新操作
-     *
-     * @param gameGroupMember
-     * @return
-     * @author lx
-     */
-    public boolean updateGameGroupMember(GameGroupMemberInfo gameGroupMember);
-
-    /**
-     * findUserUniqueByUserId 根据userId来找到userunique
-     *
-     * @param userId
-     * @return String
-     * @throws
-     * @author hhy
-     * @since 1.0.0
-     */
-    public String findUserUniqueByUserId(String userId);
-
-    /**
-     * findCurrentPeriod 根据userUnique来找到CurrentPeriod
-     * 已经舍弃的方法. 主要使用commonDao 中的公告方法.
-     *
+     * 作更新操作
      * @param userUnique
-     * @return int
-     * @throws
-     * @author hhy
-     * @since 1.0.0
-     * @deprecated
+     * @param currentPeriod 成员当前正处于什么周期。初始值为0表示竞赛尚未开始
+     * @param status 用户状态—0表示用户已经破产，1表示用户仍然在经营.2表示完成竞赛。
+     *               10是还没有开始比赛，但是已经进入分组了的。一开始的时候应该是null
+     * @param userID 参与该竞赛分组的用户ID
+     * @param groupName
+     * @return
      */
-    public int findCurrentPeriod(String userUnique);
+    int updateGameGroupMember(@Param("userUnique") String userUnique,
+                              @Param("currentPeriod") int currentPeriod,
+                              @Param("status") int status,
+                              @Param("userID") String userID,
+                              @Param("groupName") String groupName);
 
     /**
-     * findGameGroupMemberListByStatus 根据status状态来找到哪个组的人
-     *
-     * @param status     状态值  用户状态—0表示用户已经破产，1表示用户仍然在经营.2表示完成竞赛。一开始的时候应该是null
-     * @param userUnique 唯一用户标识
-     * @return List<GameGroupMemberInfo>
-     * @throws
-     * @author hhy
-     * @since 1.0.0
+     * 根据userId来找到userunique
+     * @param userId
+     * @return
      */
-    public List<GameGroupMemberInfo> findGameGroupMemberListByStatus(Integer status, String userUnique);
+    String findUserUniqueByUserId(String userId);
 
     /**
-     * findGameGroupMemberListByStatusAndGroupName  根据status状态来找到哪个组的人
-     *
-     * @param status    状态值  用户状态  0表示用户已经破产  1表示用户仍然在经营   2表示完成竞赛。一开始的时候应该是null
-     * @param groupName 组名
-     * @return List<GameGroupMemberInfo>
-     * @throws
-     * @author hhy
-     * @since 1.0.0
+     * 根据userUnique来找到CurrentPeriod
+     * 已经舍弃的方法. 主要使用commonDao中的公告方法.
+     * @param userUnique
+     * @return
      */
-    public List<GameGroupMemberInfo> findGameGroupMemberListByStatusAndGroupName(Integer status, String groupName);
+    // TODO: 2016/8/18 要去看一下commonDao中的公告方法
+    int findCurrentPeriod(String userUnique);
 
+    /**
+     * 根据status状态来找到哪个组的人
+     * @param status 状态值  用户状态—0表示用户已经破产，1表示用户仍然在经营.
+     *               2表示完成竞赛。一开始的时候应该是null
+     * @param userUnique
+     * @return
+     */
+    List<GameGroupMemberInfo> findGameGroupMemberListByStatus(
+            @Param("status") Integer status,
+            @Param("userUnique") String userUnique);
+
+    /**
+     * 根据status状态来找到哪个组的人
+     * @param status 状态值  用户状态  0表示用户已经破产
+     *               1表示用户仍然在经营   2表示完成竞赛。
+     *               一开始的时候应该是null
+     * @param groupName  组名
+     * @return
+     */
+    List<GameGroupMemberInfo> findGameGroupMemberListByStatusAndGroupName(
+            @Param("status") Integer status,
+            @Param("groupName") String groupName);
 
     /**
      * 取出当前用户的状态值
-     *
      * @param userUnique
      * @return
-     * @author lx
      */
-    public int findStatusByUserUnique(String userUnique);
+    int findStatusByUserUnique(String userUnique);
 
     /**
      * 用户破产，更改用户status值为0
-     *
-     * @author lx
+     * @param userUnique
+     * @param status
+     * @return
      */
-    public boolean updateBankruptcyUserStatus(String userUnique, int status);
+    int updateBankruptcyUserStatus(@Param("userUnique") String userUnique,
+                                   @Param("status") int status);
 
     /**
      * 将该用户推进下一周  CurrentPeriod + 1
-     *
      * @param userUnique
      * @return
-     * @author lx
      */
-    public boolean updateIncreaseUserCurrentPeriod(String userUnique);
+    int updateIncreaseUserCurrentPeriod(String userUnique);
 
     /**
      * 找到当前游戏组里的最小期
-     *
      * @param groupName
      * @return
      */
-    public int findLeastCurrentPeriodByGroupName(String groupName);
+    int findLeastCurrentPeriodByGroupName(String groupName);
 
     /**
      * 用户已经完成游戏，设置他的状态值为2
-     *
      * @param userUnique
      * @return
      */
-    public boolean updateUserStatusToFinishGame(String userUnique);
+    int updateUserStatusToFinishGame(String userUnique);
 
     /**
-     * updateGameGroupNumber 更新用户组中的人数 减少一个单位
-     *
-     * @param groupName void
-     * @throws
-     * @since 1.0.0
+     * 更新用户组中的人数 减少一个单位
+     * @param groupName
+     * @return
      */
-    public void updateGameGroupNumber(String groupName);
+    int updateGameGroupNumber(String groupName);
 
-    public int delete(String groupName, String userUnique);
+    int deleteByUserUnique(@Param("groupName") String groupName,
+                           @Param("userUnique") String userUnique);
 
-    public int updateUserNumbers(String groupName);
+    int findUserNumByGroupName(String groupName);
 
-    public int findUserNumByGroupName(String groupName);
+    String findGroupNameByUserUnique(String userUnique);
 
-    public String findGroupNameByUserUnique(String userUnique);
+    List<GameGroupMemberInfo> findUsersByGroupName(String groupName);
 
-    public List<GameGroupMemberInfo> findUsersByGroupName(String groupName);
+    GameGroupMemberInfo finGroupMemberByUserId(String userId);
+
+    GameGroupMemberInfo findUserUniqueInGroupMemberByUserId(String userId);
+
+    /**
+     * 获取这个正在游戏的用户的相关情况
+     * 0: 表示破产 1: 游戏正在进行 2: 用户已经完成游戏周期
+     * @param userUnique
+     * @return
+     */
+    int getStatusByUserUnique(String userUnique);
+
+
 
 }
