@@ -15,7 +15,7 @@
 				         http://www.springframework.org/schema/aop
 				         http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 				         http://www.springframework.org/schema/cache
-						 http://www.springframework.org/schema/cache/spring-cache.xsd">
+						 http://www.springframework.org/schema/cache/spring-cache.xsd ">
 
 
     <!-- 启用注解注入 -->
@@ -61,7 +61,7 @@
             <value>com.mysql.jdbc.Driver</value>
         </property>
         <property name="driverUrl">
-            <value>jdbc:mysql://172.22.1.159:3306/erp?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true</value>
+            <value>jdbc:mysql://172.22.1.159:3306/erp4test?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true</value>
         </property>
         <property name="user" value="misproject"/>
         <property name="password" value="2907159"/>
@@ -72,7 +72,7 @@
         <property name="maximumConnectionCount" value="50"/>
         <property name="minimumConnectionCount" value="8"/>
         <property name="simultaneousBuildThrottle" value="50"/>
-        <property name="houseKeepingTestSql" value="select_CURRENT_DATE"/>
+        <property name="houseKeepingTestSql" value="select CURRENT_DATE"/>
     </bean>
 
     <!-- 创建SqlSessionFactory，同时指定数据源 -->

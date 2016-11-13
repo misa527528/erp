@@ -12,7 +12,7 @@ import java.util.List;
 @Repository("accountDetailDao")
 public interface AccountDetailDao {
     /**
-     * 向向分录明细表(ACCOUNTDETAIL)表中添加一条记录
+     * 向分录明细表(ACCOUNTDETAIL)表中添加一条记录
      * @param userUnique 用户在竞赛中的唯一标识
      * @param accountID
      * @param item 科目的名称,外码，参照 ACCOUNTTWOTOONEBASIC表的TwoItem

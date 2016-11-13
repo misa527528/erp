@@ -108,4 +108,29 @@
         </foreach>
     </insert>
 
+    <!-- 如果修改sql 请同时修改hisAdOfUserDao.getUserInput历史记录  -->
+    <select id="getUserInput" resultType="double">
+        select ifnull(sum(money), 0) output
+        from adofuser
+        where userunique = #{userunique}
+        and period = #{period}
+    </select>
+
+    <!-- 如果修改sql 请同时修改hisAdOfUserDao.getMemberSaleByMarket历史记录  -->
+    <select id="getMemberSaleByMarket" resultType="double" >
+        select ifnull(sum(pnumber * price), 0) input
+        from ordersofuser
+        where userunique = #{userunique}
+        and endtime
+          between #{firstPeriod} and #{lastPeriod}
+        and marketname = #{marketname}
+    </select>
+
+    <!-- 如果修改sql 请同时修改hisAdOfUserDao.getAdCost历史记录  -->
+    <select id="getAdCost" resultType="double">
+        select ifnull(sum(money), 0) adCost
+        from adofuser
+        where userunique=#{userunique}
+        and period=#{period}
+    </select>
 </mapper>

@@ -47,7 +47,7 @@
 		]]>
     </select>
 
-    <select id="findPageCount" resultType="integer">
+    <select id="findRecordCount" resultType="integer">
         <![CDATA[
             select count(USERUNIQUE)
             from ACCOUNTHEAD
@@ -57,5 +57,17 @@
 	 ]]>
     </select>
 
+    <!-- 修改sql的时候同时改hisAccountHeadDao.getItemCost历史纪录 -->
+    <select id="getItemCost" resultType="double">
+        select ifnull(sum(money), 0) itemCost
+        from accounthead a1
+        join accountdetail a2
+        on (a1.accountid=a2.accountid)
+        where a1.userunique=#{userunique}
+        and a1.happentime
+          between #{firstPeriod} and #{lastPeriod}
+        and a1.accountiddescription like #{item}
+        and a2.itemtype='借'
+    </select>
 
 </mapper>

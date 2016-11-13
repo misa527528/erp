@@ -4,5 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cqupt.mis.erp.manager.history.HisBalanceSheetDao">
-
+    <!-- 如果修改上面的balanceSheetDao.CalOwnerBenifit请同时修改这里的历史记录  -->
+    <select id="CalOwnerBenifit" resultType="double">
+        select ifnull(sum(endvalue), 0) as ev
+        from his_balancesheet,accountonebasic
+        where his_balancesheet.oneitem=accountonebasic.oneitem
+        and type1='所有者权益'
+        and period=#{period}
+        and userunique =#{userUnique}
+    </select>
 </mapper>

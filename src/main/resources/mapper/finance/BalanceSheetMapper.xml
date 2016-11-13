@@ -82,7 +82,15 @@
         group by Type1
     </select>
 
-
+    <!-- 修改这里的时候请修改对应的balanceSheetDao。CalOwnerBenifit的历史纪录 -->
+    <select id="CalOwnerBenifit" resultType="double" >
+        select ifnull(sum(endvalue), 0) as ev
+        from balancesheet,accountonebasic
+        where balancesheet.oneitem=accountonebasic.oneitem
+        and type1='所有者权益'
+        and period=#{period}
+        and userunique =#{userUnique}
+    </select>
 
     <update id="updateBalanceEndValues">
         update BALANCESHEET

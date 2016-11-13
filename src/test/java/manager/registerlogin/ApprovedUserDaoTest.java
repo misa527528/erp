@@ -41,4 +41,30 @@ public class ApprovedUserDaoTest {
         Assert.assertSame(result, 1);
     }
 
+    @Test
+    public void updateApprovedUserInfo(){
+        String userID = "12345";
+        String password = "123456";
+        String name = "朱虹春";
+        String major = "12345678";
+        String className = "0211402";
+        String studentID = "2013210458";
+        String email = "4578979@qq.com";
+        String tel = "";
+
+        int result = approvedUserDao.updateApprovedUserInfo(
+                userID, name, password, major, className, studentID, email, tel);
+
+        Assert.assertTrue(result > 0);
+    }
+
+    @Test
+    public void deleteApprovedUserById(){
+        String userId = "这个用户是测试能不能删除的";
+
+        int result = approvedUserDao.deleteApprovedUserById(userId);
+
+        Assert.assertSame(1, result);
+    }
+
 }

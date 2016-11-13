@@ -4,5 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cqupt.mis.erp.manager.history.HisAccountHeadDao">
+    <!-- 如果修改accountHeadDao.getItemCost请同时修改这里的历史记录 -->
+    <select id="getItemCost" resultType="double">
+        select ifnull(sum(money), 0) itemCost
+        from his_accounthead a1
+        join his_accountdetail a2 on (a1.accountid=a2.accountid)
+        where a1.userunique=#{userunique}
+        and a1.happentime
+          between #{firstPeriod} and #{lastPeriod}
+        and a1.accountiddescription like #{item} and a2.itemtype='借'
+    </select>
+
 
 </mapper>

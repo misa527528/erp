@@ -1,6 +1,7 @@
 package com.cqupt.mis.erp.manager.registerlogin;
 
 import com.cqupt.mis.erp.model.registerlogin.GameGroupInfo;
+import com.cqupt.mis.erp.model.registerlogin.GameGroupMemberInfo;
 import com.cqupt.mis.erp.model.registerlogin.GameGroupMemberStatus;
 import com.cqupt.mis.erp.model.vo.GameGroupVO;
 import org.apache.ibatis.annotations.Param;
@@ -84,7 +85,7 @@ public interface GameGroupDao {
     /**
      * 将游戏组的信息转入到历史数据
      * @param groupName
-     * @result 0
+     * @result result 为0
      * @return
      */
     // TODO: 2016/8/18 xml里面写的东西不太懂，要搞明白，看看是否要搬倒别的地方
@@ -108,7 +109,54 @@ public interface GameGroupDao {
 
     int updateUserNumbers(String groupName);
 
-    // TODO: 2016/8/18 这好像错了吧，sql写的意思和方法名称完全对不上
-    int findGameCreatorByUserId(String userId);
+    /**
+     * 找出游戏组的创建者
+     * @param userId
+     * @return
+     */
+    GameGroupMemberInfo findGameCreatorByUserId(String userId);
 
+    int addGameGroup(@Param("groupName") String groupName,
+                     @Param("groupCreaterId") String groupCreaterId,
+                     @Param("userNumbers") int userNumbers,
+                     @Param("years") int years,
+                     @Param("periodsOfOneYear") int periodsOfOneYear,
+                     @Param("currentPeriod") int currentPeriod,
+                     @Param("autoPeriodFresh") int autoPeriodFresh,
+                     @Param("atuoYearFresh") int atuoYearFresh,
+                     @Param("enableAutoPeriodFresh") String enableAutoPeriodFresh,
+                     @Param("enableAutoYearFresh") String enableAutoYearFresh);
+
+    int deleteGameGroupByGroupName(String groupName);
+
+    List<String> getGroupNames();
+
+    /**
+     * 查询竞赛总的比赛年数
+     * @param userUnique
+     * @return 竞赛总的比赛年数
+     */
+    Integer findTotalYear(String userUnique);
+
+    /**
+     * 查询一年包含的周期数
+     * @param userUnique
+     * @return 一年包含的周期数
+     */
+    Integer findPeriodOfYear(String userUnique);
+
+    /**
+     * 根据游戏组名称查询游戏组每一年包含多少个周期
+     * @param groupName
+     * @return
+     */
+    int findPeriodOfYearByGroupName(String groupName);
+
+    /**
+     * 根据userUnique 来找到游戏组的成员数量
+     * @param userUnique
+     * @return
+     */
+   // @Cacheable(value={"groupMemberSize"},key="#userUnique")
+    Integer findGroupMemberSize(String userUnique);
 }

@@ -73,4 +73,9 @@ public interface AccountHeadDao {
     Integer findRecordCount(@Param("userUnique") String userUnique,
                             @Param("minTime") Integer minTime,
                             @Param("maxTime") Integer maxTime);
+
+    double getItemCost(@Param("userunique") String userunique,
+                       @Param("item") String item,
+                       @Param("firstPeriod") int firstPeriod,
+                       @Param("lastPeriod") int lastPeriod);
 }

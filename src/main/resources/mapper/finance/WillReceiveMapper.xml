@@ -19,16 +19,16 @@
         and WILLRECEIVEID = #{willReceiveID}
     </select>
 
-    <select id="insert" parameterType="com.cqupt.mis.erp.model.finance.WillReceive">
-        INSERT INTO willreceive (USERUNIQUE,money,begintime,endtime,willReceiveDescription,note)
-        values(#{userUnique}, #{money}, #{beginTime}, #{endTime}, #{willReceiveDescription}, #{note})
-    </select>
-
     <delete id="delete">
         delete
         from WILLRECEIVE
         where USERUNIQUE = #{userUnique}
         and WILLRECEIVEID = #{willReceiveID}
     </delete>
+
+    <insert id="insert" >
+         INSERT INTO willreceive (USERUNIQUE,money,begintime,endtime,willReceiveDescription,note)
+        values(#{userUnique}, #{money}, #{beginTime}, #{endTime}, #{willReceiveDescription}, #{note})
+    </insert>
 
 </mapper>

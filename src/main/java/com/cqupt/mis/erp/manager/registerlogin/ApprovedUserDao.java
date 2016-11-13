@@ -32,13 +32,14 @@ public interface ApprovedUserDao {
                     @Param("tel") String tel,
                     @Param("typeId") String typeId);
 
-    int deleteApprovedUserById(@Param("approvedUserId") String approvedUserId);
+    Integer deleteApprovedUserById(@Param("userId") String userId);
 
     ApprovedUserInfo findGameGroupCreatorUserByGroupName(String groupName);
 
     List<ApprovedUserInfo> findAllGameGroupUserByGroupName(String groupName);
 
     int updateApprovedUserInfo(@Param("userID") String userID,
+                               @Param("name") String name,
                                @Param("password") String password,
                                @Param("major") String major,
                                @Param("className") String className,
@@ -46,4 +47,5 @@ public interface ApprovedUserDao {
                                @Param("email") String email,
                                @Param("tel") String tel);
 
+    String findUsernameByUserUnique(String userUnique);
 }

@@ -3,6 +3,53 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.cqupt.mis.erp.manager.history.HisAdOfUserDao">
+<mapper namespace="com.cqupt.mis.erp.manager.history.HisOrdersOfUserDao">
+    <!-- 修改ordersofuserDao.getUserOutput也改这里 -->
+    <select id="getUserOutput" resultType="double">
+        select ifnull(sum(pnumber * price), 0) output
+        from his_ordersofuser
+        where userUnique = #{userUnique}
+        and endtime
+          between #{firstPeriod}
+          and #{lastPeriod}
+    </select>
 
+    <!-- 如果修改ordersofuserDao.getMemberSaleByMarket,请同时修改这里的历史记录  -->
+    <select id="getMemberSaleByMarket" resultType="double" parameterType="map">
+        select ifnull(sum(pnumber * price), 0) input
+        from his_ordersofuser
+        where userunique = #{userunique}
+        and endtime
+          between #{firstPeriod} and #{lastPeriod}
+        and marketname = #{marketname}
+    </select>
+
+    <!-- 如果修改ordersofuserDao.getMemberSaleByProduct,请同时修改这里的历史记录  -->
+    <select id="getMemberSaleByProduct" resultType="double">
+        select ifnull(sum(pnumber * price), 0) input
+        from his_ordersofuser
+        where userunique = #{userunique}
+        and endtime
+          between #{firstPeriod} and #{lastPeriod}
+        and productname = #{productName}
+    </select>
+
+    <!-- 如果修改ordersofuserDao.getProducts,请同时修改这里的历史记录  -->
+    <select id="getProducts" resultType="com.cqupt.mis.erp.model.enterpriseevaluate.Products">
+        select productname, pnumber
+        from his_ordersofuser
+        where userunique=#{userunique}
+        and endtime
+          between #{firstPeriod} and #{lastPeriod}
+    </select>
+
+    <!-- 如果修改ordersofuserDao.getProductsByProductName,请同时修改这里的历史记录  -->
+    <select id="getProductsByProductName" resultType="com.cqupt.mis.erp.model.enterpriseevaluate.Products">
+        select productname, pnumber, price
+        from his_ordersofuser
+        where userunique=#{userUnique}
+        and productName=#{productName}
+        and endtime
+            between #{firstPeriod} and #{lastPeriod}
+    </select>
 </mapper>

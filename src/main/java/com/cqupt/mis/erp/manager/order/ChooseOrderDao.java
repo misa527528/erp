@@ -4,7 +4,6 @@ import com.cqupt.mis.erp.model.order.ChooseOrder;
 import com.cqupt.mis.erp.model.vo.ChooseOrderVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -101,6 +100,7 @@ public interface ChooseOrderDao {
 
     /**
      * 这里的缓存如果还有问题， 就直接注释了。
+     * 注意：调用该方法时，如果marketName或productName为空的话就用all代替
      * @param period
      * @param gameGroupName
      * @param marketName
@@ -108,10 +108,10 @@ public interface ChooseOrderDao {
      * @param userUnique
      * @return
      */
-    @Cacheable(value = {"ChooseOrderVO"}, key = "#period+#gameGroupName+#marketName+#productName")
+    // @Cacheable(value = {"ChooseOrderVO"}, key = "#period+#gameGroupName+#marketName+#productName")
     List<ChooseOrderVO> findChooseOrderByMarketNameAndProductNameCacheWithGroup(
                     @Param("period") int period,
-                    @Param("gameGroupName") String gameGroupName,
+                    @Param("groupName") String gameGroupName,
                     @Param("marketName") String marketName,
                     @Param("productName") String productName,
                     @Param("userUnique") String userUnique);

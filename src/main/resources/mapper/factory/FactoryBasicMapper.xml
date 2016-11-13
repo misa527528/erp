@@ -56,5 +56,17 @@
         )t
         WHERE factorybasic.`FACTORYTYPE` = t.`FACTORYTYPE`
     </select>
+
+    <select id="findAccountC" resultType="float">
+        select makeperiod*makecost
+        from factorybasic
+        where factoryType=#{factoryType}
+    </select>
+
+    <select id="findAccountE" resultType="float">
+        select selldifferentprice
+        from factorybasic
+        where factoryType=#{factoryType}
+    </select>
 </mapper>
 

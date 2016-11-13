@@ -4,5 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cqupt.mis.erp.manager.history.HisProductLineDao">
-
+    <!-- 如果修改productLineDao.getProducePeriod请同时修改这里的历史记录  -->
+    <select id="getProducePeriod" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.enterpriseevaluate.ProduceCapacity" >
+        select t2.produceperiod producePeriod
+        from his_productline t1
+        join productlinebasic t2
+        on (t1.productlinetype=t2.productlinetype)
+        where userunique=#{userunique}
+    </select>
 </mapper>

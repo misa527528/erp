@@ -35,7 +35,7 @@ public interface AllOrdersOfGroupDao {
     int updateSpecalRems(List<AllOrdersOfGroup> allOrdersOfGroups);
 
     /**
-     * 根据orderId来查找订单的状态
+     * 根据orderId来查找订单的状态, 如果是null返回-1
      * @param orderId
      * @return
      */

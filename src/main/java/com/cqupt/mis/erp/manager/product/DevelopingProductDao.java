@@ -45,9 +45,9 @@ public interface DevelopingProductDao {
      * @param productName
      * @return
      */
-    int updateStopDevelopProductStatus(@Param("status") int status,
-                                 @Param("userUnique") String userUnique,
-                                 @Param("productName") String productName);
+    int updateStopDevelopProductStatus(@Param("userUnique") String userUnique,
+                                 @Param("productName") String productName,
+                                 @Param("status") int status);
 
 
     // TODO: 2016/8/18 打死我也要重构

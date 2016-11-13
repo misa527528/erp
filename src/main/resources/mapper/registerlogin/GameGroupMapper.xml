@@ -5,7 +5,7 @@
 
 <mapper namespace="com.cqupt.mis.erp.manager.registerlogin.GameGroupDao">
     <resultMap id="gamegroups"
-               type="com.cqupt.mis.erp.manager.registerlogin.GameGroupDao">
+               type="com.cqupt.mis.erp.model.registerlogin.GameGroupInfo">
         <result property="groupName" column="GROUPNAME" />
         <result property="groupCreaterId" column="GROUPCREATERID" />
         <result property="userNumbers" column="USERNUMBERS" />
@@ -94,7 +94,7 @@
 
     <select id="findAllGameGroups" resultMap="gamegroups">
         SELECT G.GROUPNAME, A.USERNAME, G.GROUPCREATERID, G.USERNUMBERS,
-              G.YEARS, G.PERIODSOFONEYEAR, G.CURRENTPERIOD
+              G.YEARS, G.PERIODSOFONEYEAR, G.CURRENTPERIOD, G.PERIODSOFONEYEAR
         FROM GAMEGROUP G, APPROVEDUSER A
         WHERE G.GROUPCREATERID = A.USERID
     </select>
@@ -150,13 +150,54 @@
         where groupName = #{groupName}
     </select>
 
-    <select id="findGameCreatorByUserId" parameterType="string" resultType="int">
-        select count(*)
-        from GAMEGROUPMEMBER,GAMEGROUP
+    <select id="findGameCreatorByUserId" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.registerlogin.GameGroupMemberInfo">
+        select *
+        from GAMEGROUPMEMBER,gamegroup
         where USERID=#{userId}
         and GAMEGROUPMEMBER.GROUPNAME=GAMEGROUP.GROUPNAME
         and USERID=GROUPCREATERID
         AND STATUS>-1
+    </select>
+
+    <select id="getGroupNames" resultType="String">
+        SELECT  groupname
+        FROM GAMEGROUP
+        where CURRENTPERIOD > 0
+    </select>
+
+    <select id="findTotalYear" parameterType="string" resultType="int">
+        select YEARS
+        from GAMEGROUP
+        where GROUPNAME =(
+          select GROUPNAME
+          from GAMEGROUPMEMBER
+          where USERUNIQUE=#{userUnique}
+        )
+    </select>
+
+    <select id="findPeriodOfYear" parameterType="string" resultType="int">
+        select PERIODSOfONEYEAR
+        from GAMEGROUP
+        where GROUPNAME =(
+          select GROUPNAME
+          from GAMEGROUPMEMBER
+          where USERUNIQUE=#{userUnique}
+        )
+    </select>
+
+    <select id="findPeriodOfYearByGroupName" parameterType="string" resultType="int">
+        select ifnull(PERIODSOfONEYEAR, 0)
+        from GAMEGROUP
+        WHERE GROUPNAME = #{groupName}
+    </select>
+
+    <select id="findGroupMemberSize" parameterType="string" resultType="int">
+        select ifnull(usernumbers, -1000)
+        from gamegroup
+        where groupname=(select groupname
+                         from gamegroupmember
+                         where userunique=#{userUnique})
     </select>
 
     <update id="updateGroupCurrentPeriod" >
@@ -177,6 +218,16 @@
         where groupname = #{groupName}
     </update>
 
+    <delete id="deleteGameGroupByGroupName" parameterType="string">
+        delete
+        from GAMEGROUP
+        where groupName=#{groupName}
+    </delete>
 
-
+    <insert id="addGameGroup">
+        insert into GAMEGROUP(
+          GROUPNAME,GROUPCREATERID,USERNUMBERS,YEARS,PERIODSOFONEYEAR,CURRENTPERIOD,AUTOPERIODFRESH,
+          AUTOYEARFRESH,ENABLEAUTOPERIODFRESH,ENABLEAUTOYEARFRESH)
+        values(#{groupName},#{groupCreaterId},#{userNumbers},#{years},#{periodsOfOneYear},'0','','','1','1')
+    </insert>
 </mapper>

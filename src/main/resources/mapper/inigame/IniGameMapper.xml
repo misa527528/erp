@@ -8,7 +8,7 @@
         {#{result,mode=OUT,jdbcType=VARCHAR}=call inigame(#{groupName,mode=IN,jdbcType=VARCHAR})}
     </select>
 
-    <select id="forward_game" statementType="CALLABLE" parameterType="map" resultType="INTEGER">
+    <select id="runFunctionInOracle" statementType="CALLABLE" resultType="INTEGER">
         {#{result,mode=OUT,jdbcType=VARCHAR}=call biz_next_deal(#{userUnique,mode=IN,jdbcType=VARCHAR})}
     </select>
 

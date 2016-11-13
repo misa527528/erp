@@ -1,5 +1,6 @@
 package com.cqupt.mis.erp.service.admin;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public interface AdminOperateService {
@@ -11,8 +12,8 @@ public interface AdminOperateService {
 	 * @param newPWD
      * @return
      */
-	public boolean updatePWD(String adminID, String oldPWD, String newPWD);
+	boolean updatePWD(String adminID, String oldPWD, String newPWD);
 
-	public Map<String, Object> adminUserLogin(String adminID, String pwd);
+	Map<String, Object> adminUserLogin(String adminID, String pwd, HttpServletRequest request);
 
 }

@@ -18,4 +18,11 @@
         where USERUNIQUE=#{userUnique}
         and MARKETNAME=#{marketName}
     </select>
+
+    <delete id="deleteUndevelopMarketByUserUniqueAndMarketName">
+        delete
+        from undevelopmarket
+        where USERUNIQUE= #{userUnique}
+        and MARKETNAME=#{marketName}
+    </delete>
 </mapper>

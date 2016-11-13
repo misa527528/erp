@@ -13,7 +13,7 @@
         AND marketname = {marketName}
     </select>
 
-    <select id="find_developingmarket_by_userunique" parameterType="string"
+    <select id="findDevelopMarketsByUserUnique" parameterType="string"
             resultType="com.cqupt.mis.erp.model.market.DevelopingMarket" >
         select userunique,marketname,researchperiod,status,
                researchcost,finishedperiod,begintime
@@ -27,4 +27,9 @@
         where marketName=#{marketName}
         and userUnique=#{userUnique}
     </update>
+
+    <insert id="addDevelopingMarket" parameterType="com.cqupt.mis.erp.model.market.DevelopingMarket">
+        insert into developingmarket(userunique,marketname,researchperiod,researchcost,finishedperiod,begintime,status)
+        values(#{userUnique},#{marketName},#{researchPeriod},#{researchCost},#{finishedPeriod},#{beginTime},#{status})
+    </insert>
 </mapper>

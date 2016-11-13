@@ -7,9 +7,9 @@
     <resultMap type="com.cqupt.mis.erp.model.iso.ISOUndevelop" id="ISOUndevelop">
         <id column="USERUNIQUE" property="userUnique" />
         <id column="ISONAME" property="isoName" />
-        <result column="RESEARCHPERIOD" property=" researchPeriod" />
-        <result column="RESEARCHCOST" property=" researchCost" />
-        <result column="MAINTAINCOST" property=" maintainCost" />
+        <result column="RESEARCHPERIOD" property="researchPeriod" />
+        <result column="RESEARCHCOST" property="researchCost" />
+        <result column="MAINTAINCOST" property="maintainCost" />
     </resultMap>
 
     <select id="findAllISOUndevelop" parameterType="string"
@@ -20,9 +20,10 @@
     </select>
 
     <select id="findOneUndevelop" resultMap="ISOUndevelop">
-        select ISOName,
-        ResearchPeriod,ResearchCost,MaintainCost from UNDEVELOPISO where
-        USERUNIQUE=#{userUnique} and ISOName=#{isoName}
+        select ISOName,ResearchPeriod,ResearchCost,MaintainCost
+        from UNDEVELOPISO
+        where USERUNIQUE=#{userUnique}
+        and ISOName=#{isoName}
     </select>
 
 

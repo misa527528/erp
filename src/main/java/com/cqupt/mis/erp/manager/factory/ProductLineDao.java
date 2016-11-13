@@ -1,9 +1,9 @@
 package com.cqupt.mis.erp.manager.factory;
 
+import com.cqupt.mis.erp.model.enterpriseevaluate.ProduceCapacity;
 import com.cqupt.mis.erp.model.factory.ProductLineCommonInfo;
 import com.cqupt.mis.erp.model.factory.ProductLineInfo;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public interface ProductLineDao {
      * @param productLineType
      * @return
      */
-    @Cacheable(value={"ProductLineBasicByType"},key="#productLineType")
+  //  @Cacheable(value={"ProductLineBasicByType"},key="#productLineType")
     ProductLineInfo findUniqueProductLineBasic(String productLineType);
 
     /**
@@ -85,7 +85,7 @@ public interface ProductLineDao {
      * @param productLineId
      * @return
      */
-    @Cacheable(value={"ProductLineType"},key="#userUnique+#productLineId")
+   // @Cacheable(value={"ProductLineType"},key="#userUnique+#productLineId")
     String findProductLineType(@Param("userUnique") String userUnique,
                                @Param("productLineId") String productLineId);
 
@@ -135,5 +135,17 @@ public interface ProductLineDao {
      * @return
      */
     ProductLineInfo findProductLineInfoByProductlineid(String productLineId);
+
+    // TODO: 2016/8/25 改名为原来sql里写的getMemberCapacity会不会更好
+    List<ProduceCapacity> getProducePeriod(String userunique);
+
+    /**
+     * 这里是原来productLineDao.findABCList里面的find_A
+     * @param userUnique
+     * @param productLineId
+     * @return
+     */
+    float findA(@Param("userUnique") String userUnique,
+                @Param("productLineId") String productLineId);
 
 }

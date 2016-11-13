@@ -4,5 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cqupt.mis.erp.manager.finance.TaxRateBasicDao">
-
+    <select id="findTaxRate" resultType="float">
+        select TAXRATE
+        from TAXRATEBASIC
+        where REM='营业税率'
+    </select>
 </mapper>

@@ -15,6 +15,7 @@ public interface ProductDetailBasicDao {
      * 查看所有产品的原材料组成
      * @return
      */
+   // @Cacheable(value="productDetailBasic")
     List<ProductDetailBasic> findProductDetail();
 
     /**

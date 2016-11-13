@@ -23,4 +23,9 @@
         from MATERIALBASIC
         where MATERIALNAME=#{materialName}
     </select>
+
+    <select id="findAllMaterialBasic" resultMap="MaterialBasicResult">
+        select MATERIALNAME,PRICE,DELAYTIME
+        from MATERIALBASIC
+    </select>
 </mapper>

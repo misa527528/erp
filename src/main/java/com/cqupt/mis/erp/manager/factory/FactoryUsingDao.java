@@ -47,4 +47,13 @@ public interface FactoryUsingDao {
 
     int deleteFactory(@Param("userUnique") String userUnique,
                       @Param("factoryId") String factoryId);
+
+    /**
+     * 这里是原来 factoryUsingDao.findABCDE里面的方法find_account_a
+     * @param userUnique
+     * @param factoryId
+     * @return
+     */
+    float findAccountA(@Param("userUnique") String userUnique,
+                       @Param("factoryId") String factoryId);
 }

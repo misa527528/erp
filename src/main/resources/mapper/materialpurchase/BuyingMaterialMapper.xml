@@ -62,6 +62,11 @@
         where userUnique=#{userUnique}
         and ENDTIME > #{currentTime}
     </select>
+
+    <insert id="addMaterialPurchaseRecord">
+        insert into BUYINGMATERIAL(USERUNIQUE,MATERIALNAME, MNUMBER,WAREHOUSENAME,HAPPENTIME,ENDTIME)
+        values(#{userUnique},#{materialName},#{materialNumber},#{wareHouseName},#{happenTime},#{endTime})
+    </insert>
 </mapper>
 
 

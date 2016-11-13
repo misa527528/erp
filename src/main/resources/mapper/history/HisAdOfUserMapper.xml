@@ -4,5 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cqupt.mis.erp.manager.history.HisAdOfUserDao">
+    <!-- 修改adofuserDao.getUserInput也修改这里 -->
+    <select id="getUserInput" resultType="double">
+        select ifnull(sum(money), 0) output
+        from his_adofuser
+        where userunique = #{userunique}
+        and period = #{period}
+    </select>
 
+    <!-- 修改adofuserDao.getAdCost也修改这里 -->
+    <select id="getAdCost" resultType="double">
+        select ifnull(sum(money), 0) adCost
+        from his_adofuser
+        where userunique=#{userunique}
+        and period=#{period}
+    </select>
 </mapper>

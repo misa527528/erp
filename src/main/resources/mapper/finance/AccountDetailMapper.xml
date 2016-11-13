@@ -7,7 +7,7 @@
     <insert id="addAccountDetail"
             parameterType="com.cqupt.mis.erp.model.finance.AccountDetail">
         insert into ACCOUNTDETAIL
-        values(#{userUnique},#{accountId},#{item},#{money},#{itemType},#{calValue})
+        values(#{userUnique},#{accountID},#{item},#{money},#{itemType},#{calValue})
     </insert>
 
     <select id="findAccountDetail"

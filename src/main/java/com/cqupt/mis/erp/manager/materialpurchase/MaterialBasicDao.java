@@ -1,6 +1,9 @@
 package com.cqupt.mis.erp.manager.materialpurchase;
 
+import com.cqupt.mis.erp.model.materialpurchase.MaterialBasic;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created by 杨青 on 2016/8/14.
@@ -20,4 +23,6 @@ public interface MaterialBasicDao {
      * @return
      */
     int findDelayTime(String materialName);
+
+    List<MaterialBasic> findAllMaterialBasic();
 }

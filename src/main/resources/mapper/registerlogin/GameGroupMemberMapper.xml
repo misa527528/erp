@@ -88,18 +88,81 @@
 
     <select id="findUserUniqueInGroupMemberByUserId" parameterType="string"
             resultType="com.cqupt.mis.erp.model.registerlogin.GameGroupMemberInfo">
-        select userunique,gamegroup.currentperiod
-        from gamegroupmember,gamegroup where userid=#{userId}
-        and gamegroupmember.groupname =  gamegroup.groupname
-        AND STATUS>-1
+       SELECT userunique, gamegroup.currentPeriod
+       FROM gamegroupmember, gamegroup
+       WHERE userId = #{userId}
+       AND gamegroup.groupname = gamegroupmember.groupname
+       AND status > -1
     </select>
 
-    <select id="getStatusByUserUnique" parameterType="string"
-            resultType="com.cqupt.mis.erp.model.registerlogin.GameGroupMemberInfo">
+    <select id="getStatusByUserUnique" parameterType="string" resultType="int">
         select STATUS
         from GAMEGROUPMEMBER
         where USERUNIQUE=#{userUnique}
     </select>
+
+    <select id="findGameGroupMemberList" resultType="com.cqupt.mis.erp.model.registerlogin.GameGroupMemberInfo">
+        select USERUNIQUE,GROUPNAME,USERID,CURRENTPERIOD,STATUS
+        from GAMEGROUPMEMBER
+        where GROUPNAME = #{groupName}
+        order by GROUPNAME desc
+    </select>
+
+    <!-- 修改sql 请同时修改历史记录gameGroupMemberDao.getUserUnique -->
+    <select id="getUserUnique" resultType="com.cqupt.mis.erp.model.enterpriseevaluate.AdminIncomeBean">
+        select userunique
+        from gamegroupmember
+        where groupname = #{groupname}
+        and currentperiod >= #{currentperiod}
+    </select>
+
+    <!-- 修改sql 请同时修改历史记录gameGroupMemberDao.getGroupMembers -->
+    <select id="getGroupMembers" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.enterpriseevaluate.UserInputAndOutputOfAd" >
+        select userunique, userid
+        from gamegroupmember
+        where groupname=#{groupName}
+    </select>
+
+    <!-- 修改sql 请同时修改历史记录gameGroupMemberDao.getGroup_Members -->
+    <select id="getGroup_Members" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.enterpriseevaluate.Member">
+        select userunique, userid
+        from gamegroupmember
+        where groupname=#{groupName}
+    </select>
+
+    <!-- 修改sql 请同时修改历史记录gameGroupMemberDao.getGroup_Member -->
+    <select id="getGroup_Member" resultType="com.cqupt.mis.erp.model.enterpriseevaluate.Member" parameterType="string">
+        select userunique, userid
+        from gamegroupmember
+        where userunique=#{userunique}
+    </select>
+
+    <select id="findCurrentTime" parameterType="string" resultType="int">
+        select CURRENTPERIOD
+        from GAMEGROUPMEMBER
+        where USERUNIQUE=#{userUnique}
+    </select>
+
+    <select id="findGameGroupNameByUserUnique" resultType="string" parameterType="string">
+        select GROUPNAME
+        from gamegroupmember
+        where userunique=#{userUnique}
+    </select>
+
+    <select id="findCurrentGroupName" resultType="string" parameterType="string">
+        select GROUPNAME
+        from GAMEGROUPMEMBER
+        where USERID = #{userId}
+        AND STATUS>-1
+    </select>
+
+
+    <insert id="addGameGroupMember">
+        insert into GAMEGROUPMEMBER(GROUPNAME,USERID,USERUNIQUE,CURRENTPERIOD)
+        values (#{groupName},#{userId},#{userUnique},#{currentPeriod})
+    </insert>
 
 
     <update id="updateGameGroupMember">
@@ -125,6 +188,11 @@
         update gamegroupmember
         set status=2
         where userunique=#{userUnique}
+    </update>
+    <update id="updateGameGroupNumber" parameterType="string">
+        update gamegroup
+        set usernumbers = usernumbers-1
+        where groupname = #{groupName}
     </update>
 
     <delete id="deleteByUserUnique" >

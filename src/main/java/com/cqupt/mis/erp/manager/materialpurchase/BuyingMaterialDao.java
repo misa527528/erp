@@ -65,4 +65,11 @@ public interface BuyingMaterialDao {
      */
     int findMaterialOrdersReachUnCount(@Param("userUnique") String userUnique,
                                        @Param("currentTime") int currentTime);
+
+    int addMaterialPurchaseRecord(@Param("userUnique") String userUnique,
+                                  @Param("materialName") String materialName,
+                                  @Param("materialNumber") int materialNumber,
+                                  @Param("wareHouseName") String wareHouseName,
+                                  @Param("happenTime") int happenTime,
+                                  @Param("endTime") int endTime);
 }

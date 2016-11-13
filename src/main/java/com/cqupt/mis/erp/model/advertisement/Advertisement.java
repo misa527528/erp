@@ -9,6 +9,15 @@ public class Advertisement {
     private String marketName; //市场名称
     private String userUnique;
     private Double money; //投入的广告费用
+    private String productName;
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
     public Double getMoney() {
         return money;

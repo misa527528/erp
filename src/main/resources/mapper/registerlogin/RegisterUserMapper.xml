@@ -43,4 +43,8 @@
         where USERID=#{registerId}
     </delete>
 
+    <insert id="addRegister">
+        insert into REGISTERUSER(USERID,USERNAME,PASSWORD,MAJOR,CLASS,SID,EMAIL,TEL,STATUS)
+        values(#{userID},#{userName},#{password},#{major},#{className},#{studentID},#{email},#{tel},#{status})
+    </insert>
 </mapper>

@@ -2,7 +2,6 @@ package com.cqupt.mis.erp.manager.factory;
 
 import com.cqupt.mis.erp.model.factory.FactoryBasicInfo;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -46,7 +45,21 @@ public interface FactoryBasicDao {
      * @param factoryId
      * @return
      */
-    @Cacheable(value={"FactoryCapacity"},key="#userUnique+#factoryId")
+   // @Cacheable(value={"FactoryCapacity"},key="#userUnique+#factoryId")
     int findFactoryCapacity(@Param("userUnique") String userUnique,
                             @Param("factoryId") String factoryId);
+
+    /**
+     * 这里是原来factoryUsingDao.findABCDE里面的方法
+     * @param factoryType
+     * @return
+     */
+    float findAccountC(String factoryType);
+
+    /**
+     * 这里是原来factoryUsingDao.findABCDE里面的方法
+     * @param factoryType
+     * @return
+     */
+    float findAccountE(String factoryType);
 }

@@ -81,6 +81,13 @@
                  FACTORY_USING.SELLPRICE,FACTORY_USING.PLACE,BEGINTIME,FINISHTIME,CAPACITY
     </select>
 
+    <select id="findAccountA" resultType="float">
+        select sellprice
+        from factory_using
+        where userUnique=#{userUnique}
+        and factoryId=#{factoryId}
+    </select>
+
     <delete id="deleteFactory" >
         delete
         from factory_using

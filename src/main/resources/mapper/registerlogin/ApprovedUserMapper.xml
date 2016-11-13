@@ -17,7 +17,8 @@
     </resultMap>
 
     <select id="findAllApprovedUserList"  resultMap="ApprovedUserResult">
-        select USERID,USERNAME,PASSWORD,MAJOR,CLASS,SID,EMAIL,TEL from APPROVEDUSER
+        select USERID,USERNAME,PASSWORD,MAJOR,CLASS,SID,EMAIL,TEL
+        from APPROVEDUSER
     </select>
 
     <select id="findApprovedUserByUserId" parameterType="string"
@@ -43,15 +44,23 @@
                         where GROUPNAME=#{groupName})
     </select>
 
+    <select id="findUsernameByUserUnique" parameterType="string" resultType="string">
+        select approveduser.username
+        from approveduser
+        left join gamegroupmember
+        on (gamegroupmember.userid = approveduser.userid)
+        where userunique =#{userUnique}
+    </select>
+
     <insert id="addRegister" parameterType="com.cqupt.mis.erp.model.registerlogin.RegisterInfo">
         insert into APPROVEDUSER(USERID,USERNAME,PASSWORD,MAJOR,CLASS,SID,EMAIL,TEL,TYPEID)
         values(#{userID},#{name},#{password},#{major},#{className},#{studentID},#{email},#{tel},'1')
     </insert>
 
-    <delete id="deleteApprovedUserById" >
+    <delete id="deleteApprovedUserById" parameterType="String">
         delete
         from APPROVEDUSER
-        where USERID=#{approvedUserId}
+        where USERID=#{userId}
     </delete>
 
     <update id="updateApprovedUserInfo">

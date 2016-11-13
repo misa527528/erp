@@ -30,7 +30,7 @@ public interface WillReceiveDao {
     /**
      * 删除一条应收账款记录
      * @param userUnique
-     * @param willReceiveID  应收账款码
+     * @param willReceiveID 应收账款码
      * @return
      */
     int delete(@Param("userUnique") String userUnique,
@@ -38,6 +38,7 @@ public interface WillReceiveDao {
 
     /**
      * 插入一条记录
+     * 注意：调用该方法时，要先对money进行四舍五入处理
      * @param userUnique
      * @param money
      * @param beginTime

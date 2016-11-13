@@ -68,6 +68,7 @@ public interface BalanceSheetDao {
 
     /**
      * 更新某条记录的endValue字段
+     * 注意：调用该方法时，要先对endValue做四舍五入处理
      * @param userUnique
      * @param period
      * @param oneItem
@@ -85,5 +86,14 @@ public interface BalanceSheetDao {
      * @return
      */
     List<BalancesheetVO> findBalancesheetVO(String userUnique);
+
+    /**
+     * 计算所有者权益合计
+     * @param userUnique
+     * @param period
+     * @return
+     */
+    // TODO: 2016/8/24 添加测试：sql中添加了nullif函数
+    double CalOwnerBenifit(@Param("userUnique") String userUnique, @Param("period") int period);
 
 }

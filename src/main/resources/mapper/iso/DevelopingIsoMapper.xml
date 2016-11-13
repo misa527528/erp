@@ -26,7 +26,7 @@
         insert into DEVELOPINGISO (USERUNIQUE,ISONAME,RESEARCHPERIOD,
                     RESEARCHCOST,FINISHEDPERIOD,BEGINTIME,STATUS)
         values(#{userUnique},#{isoName},#{researchPeriod},
-               #{researchCost},'0',#{beginTime},'1')
+               #{researchCost},#{finishedPeriod},#{beginTime},#{status})
     </insert>
 
     <update id="updateFinishPeriod">

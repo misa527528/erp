@@ -1,7 +1,6 @@
 package com.cqupt.mis.erp.manager.factory;
 
 import com.cqupt.mis.erp.model.factory.ProductLineBasic;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,7 +14,7 @@ public interface ProductLineBasicDao {
      *  查询所有生产线基本情况
      * @return
      */
-    @Cacheable(value={"ProductLineBasic"})
+   // @Cacheable(value={"ProductLineBasic"})
     List<ProductLineBasic> findAllProductLineBasics();
 
     /**
@@ -23,7 +22,7 @@ public interface ProductLineBasicDao {
      * @param productLineType
      * @return
      */
-    @Cacheable(value={"ProductLineChangePeriod"},key="#productLineType")
+   // @Cacheable(value={"ProductLineChangePeriod"},key="#productLineType")
     int findProductLineChangePeriod(String productLineType);
 
     /**
@@ -38,6 +37,13 @@ public interface ProductLineBasicDao {
      * @param productLineId
      * @return
      */
-    @Cacheable(value={"ProductLineBasicByProductLineId"},key="#productLineId")
+   // @Cacheable(value={"ProductLineBasicByProductLineId"},key="#productLineId")
     ProductLineBasic findProductLineBasic(String productLineId);
+
+    /**
+     * 这里是原来productLineDao.findABCList里面的find_C
+     * @param productlineType
+     * @return
+     */
+    float findC(String productlineType);
 }

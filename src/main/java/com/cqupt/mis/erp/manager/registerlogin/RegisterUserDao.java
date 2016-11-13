@@ -25,4 +25,14 @@ public interface RegisterUserDao {
     List<RegisterInfo> findAllRegister();
 
     int deleteRegisterById(String registerId);
+
+    int addRegister(@Param("userID") String userId,
+                    @Param("userName") String userName,
+                    @Param("password") String password,
+                    @Param("major") String major,
+                    @Param("className") String className,
+                    @Param("studentID") String studentID,
+                    @Param("email") String email,
+                    @Param("tel") String tel,
+                    @Param("status") String status);
 }

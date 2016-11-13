@@ -3,7 +3,7 @@
 
 <mapper namespace="com.cqupt.mis.erp.manager.advertisement.AdStatusOfUserDao">
     <select id="findFinishAdFlag" resultType="int">
-        select finishadflag
+        select ifnull(finishadflag, 1)
         from adstatusofuser
         where userUnique=#{userUnique}
         and period=#{currentPeriod}
@@ -36,25 +36,25 @@
         from adstatusofuser
         where userunique=#{userUnique}
         and  period=(select max(period)
-                     from adofuser
-                     where userunique=#{userUnique})
+        from adofuser
+        where userunique=#{userUnique})
     </select>
 
     <select id="findAllStatusVOByUserUnique" parameterType="string"
             resultType="com.cqupt.mis.erp.model.vo.AdvertisementUserStatusVO">
         select  FINISHADFLAG as status,approveduser.username as name,approveduser.userid as userId
         from adstatusofuser ,
-          (select userid,userunique
-           from gamegroupmember
-           where groupname=(select groupname
-                            from gamegroupmember
-                            where userunique=#{userUnique})) u
+        (select userid,userunique
+        from gamegroupmember
+        where groupname=(select groupname
+        from gamegroupmember
+        where userunique=#{userUnique})) u
         ,approveduser
         where  adstatusofuser.userunique= u.userunique
         and u.userid=approveduser.userid
         and adstatusofuser.period= (select max(period)
-                                    from adofuser
-                                    where userunique=#{userUnique})
+        from adofuser
+        where userunique=#{userUnique})
     </select>
 
     <update id="updateFinishAdFlag" >
@@ -84,8 +84,8 @@
 
     <insert id="addAdStatusOfUser">
         insert into adstatusofuser(userunique, period, finishadflag,
-                                  finishorderflag, chooseorderflag)
+        finishorderflag, chooseorderflag)
         values (#{userUnique},#{period},#{finishadflag},
-                #{finishorderflag},#{chooseorderflag})
+        #{finishorderflag},#{chooseorderflag})
     </insert>
- </mapper>
+</mapper>

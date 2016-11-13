@@ -3,7 +3,6 @@ package com.cqupt.mis.erp.manager.prediction;
 import com.cqupt.mis.erp.model.prediction.PredictionOfGroup;
 import com.cqupt.mis.erp.model.vo.PredictionOfGroupVO;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -36,6 +35,7 @@ public interface PredictionOfGroupDao {
      * @param predictionOfGroups
      * @return
      */
+    // TODO: 2016/8/23 想办法重构
     int addPredictionOfGroups(List<PredictionOfGroup> predictionOfGroups);
 
     /**
@@ -51,7 +51,7 @@ public interface PredictionOfGroupDao {
      * @param groupName
      * @return
      */
-    @Cacheable(value={"PredictionOfGroup"},key="#marketName+#groupName")
+   // @Cacheable(value={"PredictionOfGroup"},key="#marketName+#groupName")
     List<PredictionOfGroupVO> findPredictionOfGroupByMarketName(@Param("marketName") String marketName,
                                                                 @Param("groupName") String groupName);
 }

@@ -17,6 +17,7 @@ public interface CashSheetDao {
 
     /**
      * 增加用户的现金
+     * 注意：调用该方法是要先对cash进行四舍五入处理
      * @param userUnique
      * @param cash 现金金额
      * @return
@@ -26,6 +27,7 @@ public interface CashSheetDao {
 
     /**
      * 减少用户的现金
+     * 注意：调用该方法是要先对cash进行四舍五入处理
      * @param userUnique
      * @param cash 现金金额
      * @return

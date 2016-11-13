@@ -25,4 +25,13 @@ public interface DevelopingMarketDao {
                                            @Param("status") int status);
 
     List<DevelopingMarket> findDevelopMarketsByUserUnique(String userUnique);
+
+    // TODO: 2016/8/24 添加测试
+    int addDevelopingMarket(@Param("userUnique") String userUnique,
+                            @Param("marketName") String marketName,
+                            @Param("researchPeriod") int researchPeriod,
+                            @Param("researchCost") float researchCost,
+                            @Param("finishedPeriod") int finishedPeriod,
+                            @Param("beginTime") int beginTime,
+                            @Param("status") int status);
 }

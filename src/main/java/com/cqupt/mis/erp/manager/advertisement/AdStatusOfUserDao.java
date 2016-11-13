@@ -12,15 +12,14 @@ import java.util.List;
  */
 @Repository("AdStatusOfUserDao")
 public interface AdStatusOfUserDao {
-// @Param("")
     /**
      * 根据userUnique来查找完成的状态值.
      * @param userUnique
-     * @param currentTime
+     * @param currentPeriod
      * @return
      */
     int findFinishAdFlag(@Param("userUnique") String userUnique,
-                         @Param("currentTime") Integer currentTime);
+                         @Param("currentPeriod") Integer currentPeriod);
 
     /**
      * 修改是否完成的状态
@@ -31,7 +30,7 @@ public interface AdStatusOfUserDao {
      */
     int updateFinishAdFlag(@Param("userUnique") String userUnique,
                            @Param("period") Integer period,
-                           @Param("period") Integer finishFlag);
+                           @Param("finishFlag") Integer finishFlag);
 
     /**
      * 改变选择订单的标识
@@ -42,7 +41,7 @@ public interface AdStatusOfUserDao {
      */
     int updateFinishOrderFlag(@Param("userUnique") String userUnique,
                               @Param("period") Integer period,
-                              @Param("period")Integer finishFlag);
+                              @Param("finishFlag")Integer finishFlag);
 
     /**
      * 根据多个Userunique来查找一堆list出来

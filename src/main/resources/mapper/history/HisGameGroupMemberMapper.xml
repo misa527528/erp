@@ -4,5 +4,40 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cqupt.mis.erp.manager.history.HisGameGroupMemberDao">
+    <!-- 修改gamegroupmemberDao.getUserUnique的时候也改这里 -->
+    <select id="getUserUnique" resultType="com.cqupt.mis.erp.model.enterpriseevaluate.AdminIncomeBean" >
+        select userunique
+        from his_gamegroupmember
+        where groupname=#{groupname}
+        and currentperiod >=#{currentperiod}
+    </select>
+
+    <!-- 修改gamegroupmemberDao.getGroupMembers的时候也改这里 -->
+    <select id="getGroupMembers" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.enterpriseevaluate.UserInputAndOutputOfAd">
+        select userunique, userid
+        from his_gamegroupmember
+        where groupname=#{groupName}
+    </select>
+
+    <!-- 修改gamegroupmemberDao.getGroup_Members的时候也改这里 -->
+    <select id="getGroup_Members" resultType="com.cqupt.mis.erp.model.enterpriseevaluate.Member" parameterType="string">
+        select userunique, userid
+        from his_gamegroupmember
+        where groupname=#{groupName}
+    </select>
+
+    <!-- 修改gamegroupmemberDao.getGroup_Member的时候也改这里 -->
+    <select id="getGroup_Member" resultType="com.cqupt.mis.erp.model.enterpriseevaluate.Member" parameterType="string">
+        select userunique, userid
+        from his_gamegroupmember
+        where userunique=#{userunique}
+    </select>
+
+    <select id="findHistoryCurrentTime" parameterType="string" resultType="int">
+        select CURRENTPERIOD
+        from HIS_GAMEGROUPMEMBER
+        where USERUNIQUE=#{userUnique}
+    </select>
 
 </mapper>

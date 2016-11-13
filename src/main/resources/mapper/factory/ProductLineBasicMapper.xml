@@ -55,8 +55,7 @@
         where productLineType=#{productLineType}
     </select>
 
-    <select id="find_product_basic_by_productlineid" parameterType="string"
-            resultMap="ProductLineBasic">
+    <select id="findProductLineBasic" parameterType="string" resultMap="ProductLineBasic">
         select PRODUCTLINETYPE,SETUPPERIOD,SETUPPERIODPRICE,CHANGEPERIOD,CHANGECOST,
                PRODUCEPERIOD,MAINCOST,DEPRECIATION,STUMPCOST,DELAYTIME
         from PRODUCTLINEBASIC
@@ -65,5 +64,10 @@
                                where productlineid=#{productLineId})
     </select>
 
+    <select id="findC" parameterType="string" resultType="float">
+        select  SetupPeriodPrice*SetupPeriod
+        from PRODUCTLINEBASIC
+        where PRODUCTLINETYPE=#{productLineType}
+    </select>
 
 </mapper>

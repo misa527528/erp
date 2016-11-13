@@ -1,5 +1,8 @@
 package com.cqupt.mis.erp.manager.registerlogin;
 
+import com.cqupt.mis.erp.model.enterpriseevaluate.AdminIncomeBean;
+import com.cqupt.mis.erp.model.enterpriseevaluate.Member;
+import com.cqupt.mis.erp.model.enterpriseevaluate.UserInputAndOutputOfAd;
 import com.cqupt.mis.erp.model.registerlogin.GameGroupMemberInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -42,18 +45,15 @@ public interface GameGroupMemberDao {
     String findUserUniqueByUserId(String userId);
 
     /**
-     * 根据userUnique来找到CurrentPeriod
-     * 已经舍弃的方法. 主要使用commonDao中的公告方法.
+     * 查询当前进行到的周期时间
      * @param userUnique
      * @return
      */
-    // TODO: 2016/8/18 要去看一下commonDao中的公告方法
     int findCurrentPeriod(String userUnique);
 
     /**
      * 根据status状态来找到哪个组的人
-     * @param status 状态值  用户状态—0表示用户已经破产，1表示用户仍然在经营.
-     *               2表示完成竞赛。一开始的时候应该是null
+     * @param status 状态值  用户状态—0表示用户已经破产，1表示用户仍然在经营，2表示完成竞赛。一开始的时候应该是null
      * @param userUnique
      * @return
      */
@@ -72,6 +72,13 @@ public interface GameGroupMemberDao {
     List<GameGroupMemberInfo> findGameGroupMemberListByStatusAndGroupName(
             @Param("status") Integer status,
             @Param("groupName") String groupName);
+
+    /**
+     * 根据组名来找到所有组员的信息. 无序版
+     * @param groupName
+     * @return
+     */
+    List<GameGroupMemberInfo> findGameGroupMemberList(String groupName);
 
     /**
      * 取出当前用户的状态值
@@ -138,6 +145,43 @@ public interface GameGroupMemberDao {
      */
     int getStatusByUserUnique(String userUnique);
 
+    int addGameGroupMember(@Param("groupName") String groupName,
+                           @Param("userId") String userId,
+                           @Param("userUnique") String userUnique,
+                           @Param("currentPeriod") int currentPeriod);
 
+    // TODO: 2016/8/24 添加测试
+    List<AdminIncomeBean> getUserUnique(@Param("groupname") String groupname,
+                                        @Param("currentperiod")  int currentperiod);
 
+    // TODO: 2016/8/24 添加测试，该接口原来为 enterPriseEvaluateDao的private接口：getGroupMembers
+    List<UserInputAndOutputOfAd> getGroupMembersByGroupName(String groupName);
+
+    List<UserInputAndOutputOfAd> getGroupMembers(String groupName);
+
+    List<Member> getGroup_Members(String groupName);
+
+    Member getGroup_Member(String userunique);
+
+    /**
+     * 查询当前进行到的周期时间
+     * @param userUnique
+     * @return
+     */
+    Integer findCurrentTime(String userUnique);
+
+    /**
+     * 根据userUnique 来查找相应的游戏组名称
+     * @param userUnique
+     * @return
+     */
+    //@Cacheable(value={"groupName"},key="#userUnique")
+    String findGameGroupNameByUserUnique(String userUnique);
+
+    /**
+     * 根据userId来找到当前的groupName
+     * @param userId
+     * @return
+     */
+    String findCurrentGroupName(String userId);
 }

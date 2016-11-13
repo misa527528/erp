@@ -51,7 +51,7 @@
     </select>
 
     <select id="findOrderStatusByOrderId" parameterType="string" resultType="int">
-        select status
+        select ifnull(status, -1)
         from allordersofgroup
         where orderid=#{orderId}
     </select>

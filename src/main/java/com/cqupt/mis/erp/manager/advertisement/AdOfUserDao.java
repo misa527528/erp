@@ -102,4 +102,15 @@ public interface AdOfUserDao {
      */
     List<String> findProductNameByMarket(@Param("userUnique") String userUnique,
                                          @Param("marketName") String marketName);
+
+    double getUserInput(@Param("userunique") String userunique,
+                        @Param("period") int period);
+
+    double getMemberSaleByMarket(@Param("userunique") String userunique,
+                                 @Param("marketname") String marketname,
+                                 @Param("firstPeriod") int firstPeriod,
+                                 @Param("lastPeriod") int lastPeriod);
+
+    double getAdCost(@Param("userunique") String userunique,
+                     @Param("period") int period);
 }

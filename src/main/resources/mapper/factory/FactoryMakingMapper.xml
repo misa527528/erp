@@ -34,8 +34,8 @@
 
     <select id="findFactoryMakingsByMarketName"  resultMap="FactoryCommonInfoResult">
         select FACTORY_MAKING.USERUNIQUE,FACTORY_MAKING.FACTORYID, FACTORY_MAKING.FACTORYTYPE,
-               FACTORY_MAKING.PLACE, FACTORY_MAKING.STATUS, FACTORY_MAKING.BEGINTIME,
-               FACTORY_MAKING.FINISHEDPERIOD, FACTORY_MAKING.PAYMODE,CAPACITY,MAKEPERIOD
+        FACTORY_MAKING.PLACE, FACTORY_MAKING.STATUS, FACTORY_MAKING.BEGINTIME,
+        FACTORY_MAKING.FINISHEDPERIOD, FACTORY_MAKING.PAYMODE,CAPACITY,MAKEPERIOD
         from FACTORYBASIC,FACTORY_MAKING
         where FACTORY_MAKING.USERUNIQUE=#{userUnique}
         and FACTORY_MAKING.PLACE like #{marketName}
@@ -47,7 +47,7 @@
         建造厂房的付款方式（PayMode）;; FACTORYBASIC表中的“能容纳的生产线数量(Capacity)”,“总建造周期(MakePeriod)”. -->
     <select id="findMakingDetail" resultMap="FactoryCommonInfoResult">
         select FACTORY_MAKING.FACTORYID,FACTORY_MAKING.FACTORYTYPE,FACTORY_MAKING.PLACE,
-               FACTORY_MAKING.STATUS,BEGINTIME,FINISHEDPERIOD,PAYMODE,CAPACITY,MAKEPERIOD
+        FACTORY_MAKING.STATUS,BEGINTIME,FINISHEDPERIOD,PAYMODE,CAPACITY,MAKEPERIOD
         from FACTORYBASIC,FACTORY_MAKING
         where USERUNIQUE=#{userUnique}
         and FACTORYID=#{factoryId}
@@ -60,9 +60,9 @@
     -->
     <insert id="addMakingFactory" >
         insert into FACTORY_MAKING(USERUNIQUE,FACTORYTYPE,
-                  PLACE,STATUS,BEGINTIME,FINISHEDPERIOD,PAYMODE)
+        PLACE,STATUS,BEGINTIME,FINISHEDPERIOD,PAYMODE)
         values(#{userUnique},#{factoryType},
-               #{place},'1',#{beginTime},'0','0')
+        #{place},'1',#{beginTime},'0','0')
     </insert>
 
     <update id="updateFactoryStatus" >

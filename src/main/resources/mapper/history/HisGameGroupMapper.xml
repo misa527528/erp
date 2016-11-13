@@ -4,5 +4,39 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cqupt.mis.erp.manager.history.HisGameGroupDao">
+    <resultMap id="gamegroups"
+               type="com.cqupt.mis.erp.model.registerlogin.GameGroupInfo">
+        <result property="groupName" column="GROUPNAME" />
+        <result property="groupCreaterId" column="GROUPCREATERID" />
+        <result property="userNumbers" column="USERNUMBERS" />
+        <result property="joinNumber" column="JOINNUMBER" />
+        <result property="remandNumber" column="REMANDNUMBER" />
+        <result property="currentPeriod" column="CURRENTPERIOD" />
+    </resultMap>
 
+    <!--这里有必要么?  -->
+    <!-- 修改GameGroupDao.getGroupNames的时候应该也要改这里 -->
+    <select id="getGroupNames" resultMap="gamegroups">
+        SELECT  GROUPNAME,GROUPCREATERID,USERNUMBERS,YEARS,PERIODSOFONEYEAR,CURRENTPERIOD,
+                AUTOPERIODFRESH,AUTOYEARFRESH,ENABLEAUTOPERIODFRESH,ENABLEAUTOYEARFRESH
+        FROM HIS_GAMEGROUP
+        where CURRENTPERIOD > 0
+    </select>
+
+    <select id="findHistoryPeriodOfYear" parameterType="string" resultType="int">
+        select PERIODSOfONEYEAR
+        from his_GAMEGROUP
+        where GROUPNAME =(
+          select GROUPNAME
+          from his_GAMEGROUPMEMBER
+          where USERUNIQUE=#{userUnique}
+        )
+    </select>
+
+    <select id="findHistoryGameGroupInfo" parameterType="String"
+            resultType="com.cqupt.mis.erp.model.registerlogin.GameGroupInfo">
+        select *
+        from his_gamegroup
+        where groupname=#{groupName}
+    </select>
 </mapper>

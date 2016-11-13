@@ -21,4 +21,8 @@ public interface UndevelopMarketDao {
      */
     UndevelopMarket findUndevelopMarketByUserUniqueAndMarketName(@Param("userUnique") String userUnique,
                                                                  @Param("marketName") String marketName);
+
+    // TODO: 2016/8/24 添加测试
+    int deleteUndevelopMarketByUserUniqueAndMarketName(@Param("userUnique") String userUnique,
+                                                       @Param("marketName") String marketName);
 }

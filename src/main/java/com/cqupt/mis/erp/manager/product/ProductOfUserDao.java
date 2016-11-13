@@ -22,7 +22,6 @@ public interface ProductOfUserDao {
      * 出用户某个产品的库存数量
      * @param userUnique
      * @param productName
-     * @param pNumber
      * @return
      */
     int findProductOfUserPNumber(@Param("userUnique") String userUnique,

@@ -102,4 +102,54 @@
         where ORDERID=#{orderID}
     </update>
 
+    <insert id="addOrdersOfUser">
+        insert into ordersofuser
+        values(#{userUnique}, #{orderID} ,#{productName}, #{price}, #{pNumber},
+               #{marketName}, #{needTime}, #{moneyTime}, #{penalPercent},
+        <if test="specialRem!=null">
+            #{specialRem},
+        </if>
+        <if test="specialRem==null">
+            null,
+        </if>
+        #{endTime})
+    </insert>
+
+    <!-- 修改sql的时候也修改对应的历史纪录hisOrdersOfUserDao.getUserOutput -->
+    <select id="getUserOutput" resultType="double">
+        select ifnull(sum(pnumber * price), 0) output
+        from ordersofuser
+        where userunique = #{userunique}
+        and endtime
+          between #{firstPeriod} and #{lastPeriod}
+    </select>
+
+    <!-- 如果修改sql 请同时修改hisOrdersOfUserDao.getMemberSaleByProduct的历史记录 -->
+    <select id="getMemberSaleByProduct" resultType="double">
+        select ifnull(sum(pnumber * price), 0) input
+        from ordersofuser
+        where userunique = #{userunique}
+        and endtime
+          between #{firstPeriod} and #{lastPeriod}
+        and productname = #{productName}
+    </select>
+
+    <!-- 如果修改sql 请同时修改hisOrdersOfUserDao.getProducts的历史记录 -->
+    <select id="getProducts" resultType="com.cqupt.mis.erp.model.enterpriseevaluate.Products" >
+        select productname, pnumber
+        from ordersofuser
+        where userunique=#{userunique}
+        and endtime
+          between #{firstPeriod} and #{lastPeriod}
+    </select>
+
+    <!-- 如果修改sql 请同时修改hisOrdersOfUserDao.getProductsByProductName的历史记录 -->
+    <select id="getProductsByProductName" resultType="com.cqupt.mis.erp.model.enterpriseevaluate.Products">
+        select productname, pnumber, price
+        from ordersofuser
+        where userunique=#{userunique}
+        and productName=#{productName}
+        and endtime
+          between #{firstPeriod} and #{lastPeriod}
+    </select>
 </mapper>

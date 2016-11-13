@@ -27,7 +27,7 @@
     </select>
 
     <!-- 查看生产线详细信息 -->
-    <select id="findProductLineDetail" resultMap="ProductLineInfoResult">
+    <select id="findProductLineDetail" resultType="com.cqupt.mis.erp.model.factory.ProductLineCommonInfo">
         select PRODUCTLINEID,FACTORYID,PRODUCTLINE.PRODUCTLINETYPE,SELLPRICE,PRODUCTNAME,
                STATUS,FINISHPERIOD,PRODUCTFINISHPERIOD,SETUPPERIOD,SETUPPERIODPRICE,
                CHANGEPERIOD,CHANGECOST,PRODUCEPERIOD,MAINCOST,DEPRECIATION,STUMPCOST,DELAYTIME
@@ -88,6 +88,23 @@
         from PRODUCTLINE,PRODUCTLINEBASIC
         where PRODUCTLINE.PRODUCTLINEID=#{productLineId}
         and PRODUCTLINEBASIC.PRODUCTLINETYPE=PRODUCTLINE.PRODUCTLINETYPE
+    </select>
+
+    <!-- 如果修改sql 请同时修改productLineDao.getProducePeriod  -->
+    <select id="getProducePeriod" parameterType="string"
+            resultType="com.cqupt.mis.erp.model.enterpriseevaluate.ProduceCapacity" >
+        select t2.produceperiod producePeriod
+        from productline t1
+        join productlinebasic t2
+        on (t1.productlinetype=t2.productlinetype)
+        where userunique=#{userunique}
+    </select>
+
+    <select id="findA" resultType="float">
+        select SellPrice
+        from productline
+        where PRODUCTLINEID=#{productLineId}
+        and USERUNIQUE=#{userUnique}
     </select>
 
     <insert id="addProductLine">
