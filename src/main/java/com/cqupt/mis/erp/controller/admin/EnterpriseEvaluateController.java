@@ -33,7 +33,7 @@ public class EnterpriseEvaluateController {
 	}
 
 	// 查看所有者权益(按企业查看)
-	@RequestMapping("/showEnValue.do")
+	@RequestMapping("/showEndValue.do")
 	public void showEndValue(HttpServletResponse response, String year, String groupName, String userunique) {
 		List<Object> endValues = enterpriseEvaluateService.showEndValue(year, groupName, userunique);
 
