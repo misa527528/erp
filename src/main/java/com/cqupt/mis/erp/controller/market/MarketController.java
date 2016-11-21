@@ -109,7 +109,7 @@ public class MarketController {
         JSONUtils.toJSON(map, response);
     }
 
-    // 继续开拓 开发中的市场
+    // 继续开拓开发中的市场
     @RequestMapping("/startDevelopingMarket.do")
     public void startDevelopingMarket(String marketName, HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> map;
